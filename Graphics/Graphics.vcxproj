@@ -179,11 +179,25 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseCamera.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraHandler.h" />
+    <ClInclude Include="Cubemap.h" />
+    <ClInclude Include="ElementBufferObject.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="VertexArrayObject.h" />
+    <ClInclude Include="VertexBufferObject.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraHandler.cpp" />
+    <ClCompile Include="Cubemap.cpp" />
+    <ClCompile Include="ElementBufferObject.cpp" />
     <ClCompile Include="glad.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="pch.cpp">
@@ -192,6 +206,16 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="stbi_image.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="VertexArrayObject.cpp" />
+    <ClCompile Include="VertexBufferObject.cpp" />
+    <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.frag" />
+    <None Include="test.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
