@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "CameraHandler.h"
 #include "Cubemap.h"
+#include "Enums.h"
 
 int fnGraphics()
 {
@@ -63,9 +64,9 @@ int fnGraphics()
 
 	int has_shader_compiled;
 
-	VertexBufferObject VBO(skyboxVertices, sizeof(skyboxVertices), UsageType::STATIC);
+	VertexBufferObject VBO(skyboxVertices, sizeof(skyboxVertices), STATIC_USAGE);
 	VertexArrayObject VAO;
-	VAO.link_vbo(VBO, 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	VAO.link_vbo(VBO, 0, 3, FLOAT, FALSE, 3 * sizeof(float), (void*)0);
 
 	std::vector<std::string> faces =
 	{
@@ -77,7 +78,15 @@ int fnGraphics()
 		"../Main/skybox/back.jpg"
 	};
 
-	Cubemap cubemap(faces, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE, GL_LINEAR, GL_LINEAR, GL_RGB);
+	Cubemap cubemap(
+		faces, 
+		TEXTURE_WRAP_CLAMP_TO_EDGE, 
+		TEXTURE_WRAP_CLAMP_TO_EDGE, 
+		TEXTURE_WRAP_CLAMP_TO_EDGE, 
+		TEXTURE_FILTER_LINEAR, 
+		TEXTURE_FILTER_LINEAR, 
+		COLOR_CHANNEL_RGB
+	);
 
 	ShaderProgram shader("../Graphics/test.vert", "../Graphics/test.frag");
 
@@ -94,13 +103,13 @@ int fnGraphics()
 
 	while (window.should_stay())
 	{
-		glDepthMask(GL_FALSE);
+		window.enable_depth_mask(FALSE);
 		shader.activate();
 		camera.update_position();
 		VAO.bind();
 		cubemap.bind();
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glDepthMask(GL_TRUE);
+		glDrawArrays(TRIANGLES, 0, 36);
+		window.enable_depth_mask(TRUE);
 		window.run_swapbuffer_eventpoller();
 	}
 	return 0;

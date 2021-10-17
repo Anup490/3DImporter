@@ -70,3 +70,8 @@ void Window::clear_color_buffer(float r, float g, float b, float a)
 	glClearColor(1.0f, 0.65f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
+
+void Window::enable_depth_mask(GLboolean flag)
+{
+	glDepthMask(flag);
+}

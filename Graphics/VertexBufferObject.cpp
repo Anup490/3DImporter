@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "VertexBufferObject.h"
 
-VertexBufferObject::VertexBufferObject(GLfloat* vertices, GLsizeiptr size, UsageType usagetype)
+VertexBufferObject::VertexBufferObject(GLfloat* vertices, GLsizeiptr size, GLenum usagetype)
 {
 	glGenBuffers(1, &id);
 	glBindBuffer(GL_ARRAY_BUFFER, id);
-	glBufferData(GL_ARRAY_BUFFER, size, vertices, get_usage(usagetype));
+	glBufferData(GL_ARRAY_BUFFER, size, vertices, usagetype);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -23,17 +23,4 @@ void VertexBufferObject::bind()
 void VertexBufferObject::unbind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-GLenum VertexBufferObject::get_usage(UsageType type)
-{
-	switch (type)
-	{
-	case UsageType::STREAM:
-		return GL_STREAM_DRAW;
-	case UsageType::DYNAMIC:
-		return GL_DYNAMIC_DRAW;
-	default:
-		return GL_STATIC_DRAW;
-	}
 }

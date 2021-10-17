@@ -1,4 +1,5 @@
 #pragma once
+#include <glad/glad.h>
 
 class GLFWwindow;
 class Window
@@ -17,4 +18,5 @@ public:
 	bool has_pressed(int key);
 	void activate_mouse_input(function mouse_callback, function scroll_callback);
 	void clear_color_buffer(float r, float g, float b, float a);
+	void enable_depth_mask(GLboolean flag);
 };

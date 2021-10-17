@@ -184,6 +184,7 @@
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="Cubemap.h" />
     <ClInclude Include="ElementBufferObject.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="pch.h" />
