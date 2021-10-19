@@ -57,6 +57,12 @@
     <ClInclude Include="Enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics.cpp">
@@ -98,13 +104,8 @@
     <ClCompile Include="Cubemap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="test.frag">
-      <Filter>Resource Files</Filter>
-    </None>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -340,3 +340,5 @@ ASALocalRun/
 healthchecksdb
 /Graphics/test.frag
 /Graphics/test.vert
+/Graphics/tex.frag
+/Graphics/tex.vert

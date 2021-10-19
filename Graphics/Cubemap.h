@@ -9,23 +9,26 @@ namespace std
 	template <class _Ty, class _Alloc = allocator<_Ty>>
 	class vector;
 }
-
+struct Vertex;
+class VertexArrayObject;
+class ShaderProgram;
 class Cubemap
 {
 	GLuint id;
-	void load_cubemaps(std::vector<std::string>& paths, GLenum img_color_channels);
+	VertexArrayObject* pVAO;
+	void load_cubemaps(std::vector<std::string>& paths);
+	GLenum get_channel(int color_channel);
 public:
 	Cubemap
 	(
 		std::vector<std::string>& paths,
+		std::vector<Vertex>& vertices,
 		GLint texture_wrap_s,
 		GLint texture_wrap_t,
 		GLint texture_wrap_r,
 		GLint min_filter,
-		GLint mag_filter,
-		GLenum img_color_channels
+		GLint mag_filter
 	);
 	~Cubemap();
-	void bind();
-	void unbind();
+	void draw(ShaderProgram& shader);
 };

@@ -11,84 +11,82 @@
 #include "CameraHandler.h"
 #include "Cubemap.h"
 #include "Enums.h"
+#include "Mesh.h"
+#include "Texture.h"
 
 int fnGraphics()
 {
 	Window window("OpenGLTest", 1024, 768);
 	window.clear_color_buffer(1.0f, 0.65f, 0.0f, 1.0f);
 
-	float skyboxVertices[] = {
-		// positions          
-		-1.0f,  1.0f, -1.0f,
-		-1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-		 1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
+	std::vector<Vertex> skyboxVertices = {       
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
 
-		-1.0f, -1.0f,  1.0f,
-		-1.0f, -1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f,  1.0f,
-		-1.0f, -1.0f,  1.0f,
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
 
-		 1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
 
-		-1.0f, -1.0f,  1.0f,
-		-1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f, -1.0f,  1.0f,
-		-1.0f, -1.0f,  1.0f,
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
 
-		-1.0f,  1.0f, -1.0f,
-		 1.0f,  1.0f, -1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		-1.0f,  1.0f,  1.0f,
-		-1.0f,  1.0f, -1.0f,
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
 
-		-1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f,
-		 1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f,
-		 1.0f, -1.0f,  1.0f
+		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f,  1.0f)}
 	};
 
 	int has_shader_compiled;
 
-	VertexBufferObject VBO(skyboxVertices, sizeof(skyboxVertices), STATIC_USAGE);
-	VertexArrayObject VAO;
-	VAO.link_vbo(VBO, 0, 3, FLOAT, FALSE, 3 * sizeof(float), (void*)0);
-
 	std::vector<std::string> faces =
 	{
-		"../Main/skybox/right.jpg",
-		"../Main/skybox/left.jpg",
-		"../Main/skybox/top.jpg",
-		"../Main/skybox/bottom.jpg",
-		"../Main/skybox/front.jpg",
-		"../Main/skybox/back.jpg"
+		"../Assets/skybox/right.jpg",
+		"../Assets/skybox/left.jpg",
+		"../Assets/skybox/top.jpg",
+		"../Assets/skybox/bottom.jpg",
+		"../Assets/skybox/front.jpg",
+		"../Assets/skybox/back.jpg"
 	};
 
 	Cubemap cubemap(
 		faces, 
+		skyboxVertices,
 		TEXTURE_WRAP_CLAMP_TO_EDGE, 
 		TEXTURE_WRAP_CLAMP_TO_EDGE, 
 		TEXTURE_WRAP_CLAMP_TO_EDGE, 
 		TEXTURE_FILTER_LINEAR, 
-		TEXTURE_FILTER_LINEAR, 
-		COLOR_CHANNEL_RGB
+		TEXTURE_FILTER_LINEAR
 	);
 
-	ShaderProgram shader("../Graphics/test.vert", "../Graphics/test.frag");
+	ShaderProgram shader("../Main/test.vert", "../Main/test.frag");
+	ShaderProgram wallshader("../Main/tex.vert", "../Main/tex.frag");
 
 	glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 	glm::vec3 camera_target(0.0f, 0.0f, 0.0f);
@@ -101,14 +99,32 @@ int fnGraphics()
 	CameraHandler handler(window);
 	handler.add_camera(&camera);
 
+	std::vector<Vertex> verticesParallax =
+	{
+		Vertex{glm::vec3(-1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f)},
+		Vertex{glm::vec3(-1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f)},
+		Vertex{glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)}
+	};
+
+	std::vector<GLuint> indicesParallax =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	std::vector<Texture> textures;
+	Texture t1("../Assets/wall.png", "diffuse",0, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE, GL_NEAREST, GL_NEAREST);
+	textures.push_back(t1);
+
+	Mesh mesh(verticesParallax, indicesParallax, textures);
+
 	while (window.should_stay())
 	{
 		window.enable_depth_mask(FALSE);
-		shader.activate();
 		camera.update_position();
-		VAO.bind();
-		cubemap.bind();
-		glDrawArrays(TRIANGLES, 0, 36);
+		cubemap.draw(shader);
+		mesh.draw(wallshader, camera);
 		window.enable_depth_mask(TRUE);
 		window.run_swapbuffer_eventpoller();
 	}

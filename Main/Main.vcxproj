@@ -162,6 +162,12 @@
       <Project>{4df16605-c8bd-4dc6-afe7-39f805117fed}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="test.frag" />
+    <None Include="test.vert" />
+    <None Include="tex.frag" />
+    <None Include="tex.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
