@@ -13,6 +13,7 @@
 #include "Enums.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "GLTFModel.h"
 
 int fnGraphics()
 {
@@ -113,18 +114,20 @@ int fnGraphics()
 		0, 2, 3
 	};
 
-	std::vector<Texture> textures;
+	/*std::vector<Texture> textures;
 	Texture t1("../Assets/wall.png", "diffuse",0, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE, GL_NEAREST, GL_NEAREST);
-	textures.push_back(t1);
+	textures.push_back(t1);*/
 
-	Mesh mesh(verticesParallax, indicesParallax, textures);
+	//Mesh mesh(verticesParallax, indicesParallax, textures);
+	GLTFModel model("../Assets/bunny/scene.gltf");
 
 	while (window.should_stay())
 	{
 		window.enable_depth_mask(FALSE);
 		camera.update_position();
 		cubemap.draw(shader);
-		mesh.draw(wallshader, camera);
+		//mesh.draw(wallshader, camera);
+		model.draw(wallshader,camera);
 		window.enable_depth_mask(TRUE);
 		window.run_swapbuffer_eventpoller();
 	}

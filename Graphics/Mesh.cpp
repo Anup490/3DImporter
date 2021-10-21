@@ -1,14 +1,12 @@
 #include "pch.h"
 #include "Mesh.h"
 #include <string>
-#include <vector>
-#include "VertexBufferObject.h"
-#include "VertexArrayObject.h"
 #include "ElementBufferObject.h"
 #include "Camera.h"
-#include "Texture.h"
 #include "ShaderProgram.h"
 
+
+#include <iostream>
 Mesh::Mesh
 (
 	std::vector<Vertex>& vertices,
@@ -16,26 +14,20 @@ Mesh::Mesh
 	std::vector<Texture>& textures
 )
 {
-	pvertices = &vertices;
-	pindices = &indices;
-	ptextures = &textures;
-	pVAO = new VertexArrayObject;
-	pVAO->bind();
+	Mesh::vertices = vertices;
+	Mesh::indices = indices;
+	Mesh::textures = textures;
+	VAO.bind();
 	ElementBufferObject EBO(indices.data(), indices.size() * sizeof(GLuint), GL_STATIC_DRAW);
 	EBO.bind();
 	VertexBufferObject VBO(vertices, GL_STATIC_DRAW);
-	pVAO->link_vbo(VBO, 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	pVAO->link_vbo(VBO, 1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
-	pVAO->link_vbo(VBO, 2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(6 * sizeof(float)));
-	pVAO->link_vbo(VBO, 3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(9 * sizeof(float)));
-	pVAO->unbind();
+	VAO.link_vbo(VBO, 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+	VAO.link_vbo(VBO, 1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+	VAO.link_vbo(VBO, 2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(6 * sizeof(float)));
+	VAO.link_vbo(VBO, 3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(9 * sizeof(float)));
+	VAO.unbind();
 	VBO.unbind();
 	EBO.unbind();
-}
-
-Mesh::~Mesh()
-{
-	delete pVAO;
 }
 
 void Mesh::draw
@@ -49,18 +41,18 @@ void Mesh::draw
 )
 {
 	shader.activate();
-	pVAO->bind();
+	VAO.bind();
 	camera.update_matrices(shader);
-	for (int i = 0; i < ptextures->size(); i++)
+	for (int i = 0; i < textures.size(); i++)
 	{
-		shader.set_int_uniform(ptextures->at(i).get_uniform(), i);
-		ptextures->at(i).activate();
+		shader.set_int_uniform(textures.at(i).get_uniform(), i);
+		textures.at(i).activate();
 	}
-	glDrawElements(GL_TRIANGLES, pindices->size(), GL_UNSIGNED_INT, 0);
-	for (int i = 0; i < ptextures->size(); i++)
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	for (int j = 0; j < textures.size(); j++)
 	{
-		ptextures->at(i).deactivate();
+		textures.at(j).deactivate();
 	}
-	pVAO->unbind();
+	VAO.unbind();
 	shader.deactivate();
 }

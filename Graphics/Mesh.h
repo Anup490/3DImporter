@@ -2,10 +2,11 @@
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 #include <glm/gtx/vector_angle.hpp>
+#include <vector>
+#include "VertexBufferObject.h"
+#include "VertexArrayObject.h"
+#include "Texture.h"
 
-struct Vertex;
-class Texture;
-class VertexArrayObject;
 class ShaderProgram;
 class Camera;
 namespace std
@@ -19,17 +20,16 @@ namespace std
 class Mesh
 {
 public:
-	std::vector<Vertex>* pvertices;
-	std::vector<GLuint>* pindices;
-	std::vector<Texture>* ptextures;
-	VertexArrayObject* pVAO;
+	std::vector<Vertex> vertices;
+	std::vector<GLuint> indices;
+	std::vector<Texture> textures;
+	VertexArrayObject VAO;
 	Mesh
 	(
 		std::vector<Vertex>& vertices,
 		std::vector<GLuint>& indices,
 		std::vector<Texture>& textures
 	);
-	~Mesh();
 	void draw
 	(
 		ShaderProgram& shader,

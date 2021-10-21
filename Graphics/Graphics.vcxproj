@@ -186,9 +186,10 @@
     <ClInclude Include="ElementBufferObject.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GLTFModel.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
+    <ClInclude Include="BaseModel.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Texture.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="Cubemap.cpp" />
     <ClCompile Include="ElementBufferObject.cpp" />
     <ClCompile Include="glad.cpp" />
+    <ClCompile Include="GLTFModel.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="pch.cpp">
