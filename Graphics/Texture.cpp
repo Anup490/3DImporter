@@ -29,8 +29,8 @@ Texture::Texture
 
 Texture::~Texture()
 {
-	deactivate();
-	glDeleteTextures(1, &id);
+	//deactivate();
+	//glDeleteTextures(1, &id);
 }
 
 void Texture::activate()

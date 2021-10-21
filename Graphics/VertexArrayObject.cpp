@@ -9,8 +9,8 @@ VertexArrayObject::VertexArrayObject()
 
 VertexArrayObject::~VertexArrayObject()
 {
-	glBindVertexArray(0);
-	glDeleteVertexArrays(1, &id);
+	//glBindVertexArray(0);
+	//glDeleteVertexArrays(1, &id);
 }
 
 void VertexArrayObject::link_vbo(VertexBufferObject& VBO, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* offset)

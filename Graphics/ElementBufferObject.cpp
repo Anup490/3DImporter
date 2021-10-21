@@ -11,8 +11,8 @@ ElementBufferObject::ElementBufferObject(GLuint* indices, GLsizeiptr size, GLenu
 
 ElementBufferObject::~ElementBufferObject()
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDeleteBuffers(1, &id);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glDeleteBuffers(1, &id);
 }
 
 void ElementBufferObject::bind()

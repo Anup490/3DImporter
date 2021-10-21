@@ -43,7 +43,7 @@ void Camera::set_projection_matrix(ShaderProgram& program, float aspect_ratio, f
 
 void Camera::update_position()
 {
-	const float speed = 2.5f * get_delta_time();
+	const float speed = 10.0f * get_delta_time();
 	if (pwindow->has_pressed(GLFW_KEY_W))
 		position += speed * glm::normalize(front);
 	if (pwindow->has_pressed(GLFW_KEY_S))

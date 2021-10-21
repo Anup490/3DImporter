@@ -12,8 +12,8 @@ VertexBufferObject::VertexBufferObject(std::vector<Vertex>& vertices, GLenum usa
 
 VertexBufferObject::~VertexBufferObject()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDeleteBuffers(1, &id);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glDeleteBuffers(1, &id);
 }
 
 void VertexBufferObject::bind()

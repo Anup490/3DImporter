@@ -41,15 +41,16 @@ void Mesh::draw
 	shader.activate();
 	VAO.bind();
 	camera.update_matrices(shader);
-	for (int i = 0; i < textures.size(); i++)
+	int final_pos = textures.size() - 1;
+	for (int i = final_pos; i >= 0; i--)
 	{
 		shader.set_int_uniform(textures.at(i).get_uniform(), i);
 		textures.at(i).activate();
 	}
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, indices.data());
-	for (int j = 0; j < textures.size(); j++)
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	for (int i = 0; i < textures.size(); i++)
 	{
-		textures.at(j).deactivate();
+		textures.at(i).deactivate();
 	}
 	VAO.unbind();
 	shader.deactivate();

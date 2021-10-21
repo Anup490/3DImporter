@@ -65,10 +65,10 @@ void Window::initialize_glad(int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void Window::clear_color_buffer(float r, float g, float b, float a)
+void Window::clear_color_buffer(glm::vec4& color, GLenum bits)
 {
-	glClearColor(1.0f, 0.65f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(color.r,color.g,color.b,color.a);
+	glClear(bits);
 }
 
 void Window::enable_depth_mask(GLboolean flag)

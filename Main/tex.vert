@@ -10,6 +10,6 @@ uniform mat4 view;
 void main()
 {
 	gl_Position = projection * view * vec4(aPos, 1.0f);
-	texCoord = aTexCoord;
+	texCoord = mat2(0.0, -1.0, 1.0, 0.0) * aTexCoord;
 	color = aColor;
 }
