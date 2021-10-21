@@ -119,7 +119,7 @@ int fnGraphics()
 	textures.push_back(t1);*/
 
 	//Mesh mesh(verticesParallax, indicesParallax, textures);
-	GLTFModel model("../Assets/bunny/scene.gltf");
+	GLTFModel model("../Assets/crow/scene.gltf");
 
 	while (window.should_stay())
 	{

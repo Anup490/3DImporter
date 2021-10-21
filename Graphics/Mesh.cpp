@@ -5,8 +5,6 @@
 #include "Camera.h"
 #include "ShaderProgram.h"
 
-
-#include <iostream>
 Mesh::Mesh
 (
 	std::vector<Vertex>& vertices,
@@ -48,7 +46,7 @@ void Mesh::draw
 		shader.set_int_uniform(textures.at(i).get_uniform(), i);
 		textures.at(i).activate();
 	}
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, indices.data());
 	for (int j = 0; j < textures.size(); j++)
 	{
 		textures.at(j).deactivate();
