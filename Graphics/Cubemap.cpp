@@ -1,32 +1,26 @@
 #include "pch.h"
+#include <stb/stb_image.h>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <glad/glad.h>
 #include "Cubemap.h"
 #include "VertexBufferObject.h"
 #include "VertexArrayObject.h"
 #include "ShaderProgram.h"
-#include <stb/stb_image.h>
-#include <vector>
-#include <iostream>
 
-Cubemap::Cubemap
-(
-	std::vector<std::string>& paths,
-	std::vector<Vertex>& vertices,
-	GLint texture_wrap_s,
-	GLint texture_wrap_t,
-	GLint texture_wrap_r,
-	GLint min_filter,
-	GLint mag_filter
-)
+Cubemap::Cubemap(std::vector<std::string>& paths)
 {
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
 	load_cubemaps(paths);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, min_filter);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, mag_filter);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, texture_wrap_s);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, texture_wrap_t);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, texture_wrap_r);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	std::vector<Vertex> vertices = get_vertices();
 	VertexBufferObject VBO(vertices, GL_STATIC_DRAW);
 	pVAO = new VertexArrayObject;
 	pVAO->link_vbo(VBO, 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
@@ -82,4 +76,51 @@ GLenum Cubemap::get_channel(int color_channel)
 	default:
 		return GL_RED;
 	}
+}
+
+std::vector<Vertex> Cubemap::get_vertices()
+{
+	return std::vector<Vertex> {
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f,  1.0f)},
+		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
+
+		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
+		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
+		Vertex{glm::vec3(1.0f, -1.0f,  1.0f)}
+	};
 }

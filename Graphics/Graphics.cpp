@@ -17,51 +17,7 @@
 
 int fnGraphics()
 {
-	Window window("OpenGLTest", 1024, 768);
-
-	std::vector<Vertex> skyboxVertices = {       
-		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
-		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
-		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
-		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
-		Vertex{glm::vec3(1.0f,  1.0f, -1.0f)},
-		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
-
-		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
-		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
-		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
-		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
-		Vertex{glm::vec3(-1.0f,  1.0f,  1.0f)},
-		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
-
-		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
-		Vertex{glm::vec3(1.0f, -1.0f,  1.0f)},
-		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
-		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
-		Vertex{glm::vec3(1.0f,  1.0f, -1.0f)},
-		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
-
-		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
-		Vertex{glm::vec3(-1.0f,  1.0f,  1.0f)},
-		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
-		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
-		Vertex{glm::vec3(1.0f, -1.0f,  1.0f)},
-		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
-
-		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
-		Vertex{glm::vec3(1.0f,  1.0f, -1.0f)},
-		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
-		Vertex{glm::vec3(1.0f,  1.0f,  1.0f)},
-		Vertex{glm::vec3(-1.0f,  1.0f,  1.0f)},
-		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
-
-		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
-		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
-		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
-		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
-		Vertex{glm::vec3(-1.0f, -1.0f,  1.0f)},
-		Vertex{glm::vec3(1.0f, -1.0f,  1.0f)}
-	};
+	Window window("3DImporter", 1024, 768);
 
 	std::vector<std::string> faces =
 	{
@@ -73,15 +29,7 @@ int fnGraphics()
 		"../Assets/skybox/back.jpg"
 	};
 
-	Cubemap cubemap(
-		faces, 
-		skyboxVertices,
-		TEXTURE_WRAP_CLAMP_TO_EDGE, 
-		TEXTURE_WRAP_CLAMP_TO_EDGE, 
-		TEXTURE_WRAP_CLAMP_TO_EDGE, 
-		TEXTURE_FILTER_LINEAR, 
-		TEXTURE_FILTER_LINEAR
-	);
+	Cubemap cubemap(faces);
 
 	ShaderProgram skyboxshader("../Main/test.vert", "../Main/test.frag");
 	ShaderProgram modelshader("../Main/tex.vert", "../Main/tex.frag");
@@ -97,7 +45,7 @@ int fnGraphics()
 	CameraHandler handler(window);
 	handler.add_camera(&camera);
 
-	GLTFModel model("../Assets/windows/scene.gltf");
+	GLTFModel model("../Assets/airplane/scene.gltf");
 
 	glEnable(GL_DEPTH_TEST);
 
