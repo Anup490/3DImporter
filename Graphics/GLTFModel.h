@@ -1,9 +1,8 @@
 #pragma once
 #include "BaseModel.h"
 #include <json/json.h>
-#include <glad/glad.h>
-#include <string>
-#include "Mesh.h"
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 class Mesh;
 class Texture;

@@ -180,6 +180,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseCamera.h" />
+    <ClInclude Include="BaseHeader.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="Cubemap.h" />

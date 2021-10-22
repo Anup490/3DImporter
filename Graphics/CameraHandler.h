@@ -1,15 +1,5 @@
 #pragma once
-
-class GLFWwindow;
-class Window;
-class BaseCamera;
-namespace std
-{
-	template <class _Ty>
-	class allocator;
-	template <class _Ty, class _Alloc = allocator<_Ty>>
-	class vector;
-}
+#include "BaseHeader.h"
 
 class CameraHandler
 {

@@ -1,17 +1,13 @@
 #pragma once
-#include <glm/glm.hpp>
-#include <glm/gtx/vector_angle.hpp>
-
-class ShaderProgram;
-class Camera;
+#include "BaseHeader.h"
 
 class BaseModel
 {
 	virtual void draw(
 		ShaderProgram& shader,
 		Camera& camera,
-		glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
-		glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)
+		glm::vec3 translation,
+		glm::quat rotation,
+		glm::vec3 scale
 	) = 0;
 };

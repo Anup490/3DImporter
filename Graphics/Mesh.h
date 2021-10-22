@@ -1,21 +1,11 @@
 #pragma once
+#include "BaseHeader.h"
 #include <glm/glm.hpp>
-#include <glad/glad.h>
-#include <glm/gtx/vector_angle.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <vector>
 #include "VertexBufferObject.h"
 #include "VertexArrayObject.h"
 #include "Texture.h"
-
-class ShaderProgram;
-class Camera;
-namespace std
-{
-	template <class _Ty>
-	class allocator;
-	template <class _Ty, class _Alloc = allocator<_Ty>>
-	class vector;
-}
 
 class Mesh
 {

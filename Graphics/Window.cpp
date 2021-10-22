@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 #include <iostream>
+#include <glad/glad.h>
+#include <glm/glm.hpp>
 
 Window::Window(const char* title, int width, int height)
 {

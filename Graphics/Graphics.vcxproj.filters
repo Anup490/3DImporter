@@ -66,6 +66,9 @@
     <ClInclude Include="GLTFModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BaseHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics.cpp">

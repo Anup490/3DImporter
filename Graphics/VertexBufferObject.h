@@ -1,14 +1,6 @@
 #pragma once
-#include <glad/glad.h>
 #include <glm/glm.hpp>
-
-namespace std
-{
-	template <class _Ty>
-	class allocator;
-	template <class _Ty, class _Alloc = allocator<_Ty>>
-	class vector;
-}
+#include "BaseHeader.h"
 
 struct Vertex
 {

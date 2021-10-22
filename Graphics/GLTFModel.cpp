@@ -2,9 +2,11 @@
 #include "GLTFModel.h"
 #include "Texture.h"
 #include "VertexBufferObject.h"
+#include "Mesh.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <string>
 #include <glm/gtc/type_ptr.hpp>
 
 GLTFModel::GLTFModel(const char* file)

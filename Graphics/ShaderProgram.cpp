@@ -4,6 +4,8 @@
 #include <sstream>
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <string>
 
 ShaderProgram::ShaderProgram(const char* vertex_shader_path, const char* fragment_shader_path)
 {

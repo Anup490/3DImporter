@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <glad/glad.h>
+#include <glm/glm.hpp>
 #include "Cubemap.h"
 #include "VertexBufferObject.h"
 #include "VertexArrayObject.h"
