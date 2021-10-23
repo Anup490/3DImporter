@@ -1,27 +1,54 @@
 #include "pch.h"
 #include "VertexBufferObject.h"
-#include <vector>
 
-VertexBufferObject::VertexBufferObject(std::vector<Vertex>& vertices, GLenum usagetype)
+class VBOCore
 {
-	glGenBuffers(1, &id);
-	glBindBuffer(GL_ARRAY_BUFFER, id);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), usagetype);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	GLuint id;
+public:
+	VBOCore(Vertex* vertices, GLsizeiptr size, GLenum usagetype)
+	{
+		glGenBuffers(1, &id);
+		glBindBuffer(GL_ARRAY_BUFFER, id);
+		glBufferData(GL_ARRAY_BUFFER, size, vertices, usagetype);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	~VBOCore()
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glDeleteBuffers(1, &id);
+	}
+	void bind()
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, id);
+	}
+	void unbind()
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+};
+
+VertexBufferObject::VertexBufferObject(Vertex* vertices, GLsizeiptr size, GLenum usagetype)
+{
+	pcore = std::shared_ptr<VBOCore>(new VBOCore(vertices, size, usagetype));
 }
 
-VertexBufferObject::~VertexBufferObject()
+VertexBufferObject::VertexBufferObject(const VertexBufferObject& another_VBO)
 {
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//glDeleteBuffers(1, &id);
+	pcore = another_VBO.pcore;
 }
 
 void VertexBufferObject::bind()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, id);
+	pcore->bind();
 }
 
 void VertexBufferObject::unbind()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	pcore->unbind();
+}
+
+VertexBufferObject& VertexBufferObject::operator=(const VertexBufferObject& another_VBO)
+{
+	pcore = another_VBO.pcore;
+	return *this;
 }

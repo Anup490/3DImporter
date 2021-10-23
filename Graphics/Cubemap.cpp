@@ -21,7 +21,7 @@ Cubemap::Cubemap(std::vector<std::string>& paths)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	std::vector<Vertex> vertices = get_vertices();
-	VertexBufferObject VBO(vertices, GL_STATIC_DRAW);
+	VertexBufferObject VBO(vertices.data(), vertices.size() * sizeof(Vertex), GL_STATIC_DRAW);
 	pVAO = new VertexArrayObject;
 	pVAO->link_vbo(VBO, 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 }

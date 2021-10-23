@@ -31,5 +31,7 @@ class Window;
 class BaseCamera;
 struct Vertex;
 class VertexArrayObject;
+class VertexBufferObject;
+class ElementBufferObject;
 class ShaderProgram;
 class Camera;

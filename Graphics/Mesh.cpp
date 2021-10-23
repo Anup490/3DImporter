@@ -2,6 +2,8 @@
 #include "Mesh.h"
 #include <string>
 #include "ElementBufferObject.h"
+#include "VertexArrayObject.h"
+#include "VertexBufferObject.h"
 #include "Camera.h"
 #include "ShaderProgram.h"
 
@@ -15,17 +17,35 @@ Mesh::Mesh
 	Mesh::vertices = vertices;
 	Mesh::indices = indices;
 	Mesh::textures = textures;
-	VAO.bind();
-	ElementBufferObject EBO(indices.data(), indices.size() * sizeof(GLuint), GL_STATIC_DRAW);
-	EBO.bind();
-	VertexBufferObject VBO(vertices, GL_STATIC_DRAW);
-	VAO.link_vbo(VBO, 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	VAO.link_vbo(VBO, 1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
-	VAO.link_vbo(VBO, 2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(6 * sizeof(float)));
-	VAO.link_vbo(VBO, 3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(9 * sizeof(float)));
-	VAO.unbind();
-	VBO.unbind();
-	EBO.unbind();
+	pVAO = new VertexArrayObject;
+	pVAO->bind();
+	pEBO = new ElementBufferObject(indices.data(), indices.size() * sizeof(GLuint), GL_STATIC_DRAW);
+	pEBO->bind();
+	pVBO = new VertexBufferObject(vertices.data(), vertices.size() * sizeof(Vertex), GL_STATIC_DRAW);
+	pVAO->link_vbo(*pVBO, 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+	pVAO->link_vbo(*pVBO, 1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+	pVAO->link_vbo(*pVBO, 2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(6 * sizeof(float)));
+	pVAO->link_vbo(*pVBO, 3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(9 * sizeof(float)));
+	pVAO->unbind();
+	pVAO->unbind();
+	pEBO->unbind();
+}
+
+Mesh::Mesh(const Mesh& another_mesh) 
+{
+	this->pVAO = new VertexArrayObject(*another_mesh.pVAO);
+	this->pVBO = new VertexBufferObject(*another_mesh.pVBO);
+	this->pEBO = new ElementBufferObject(*another_mesh.pEBO);
+	this->vertices = another_mesh.vertices;
+	this->indices = another_mesh.indices;
+	this->textures = another_mesh.textures;
+}
+
+Mesh::~Mesh()
+{
+	delete pVAO;
+	delete pEBO;
+	delete pVBO;
 }
 
 void Mesh::draw
@@ -39,7 +59,7 @@ void Mesh::draw
 )
 {
 	shader.activate();
-	VAO.bind();
+	pVAO->bind();
 	camera.update_matrices(shader);
 	int final_pos = textures.size() - 1;
 	for (int i = final_pos; i >= 0; i--)
@@ -52,6 +72,17 @@ void Mesh::draw
 	{
 		textures.at(i).deactivate();
 	}
-	VAO.unbind();
+	pVAO->unbind();
 	shader.deactivate();
+}
+
+Mesh& Mesh::operator=(Mesh& another_mesh)
+{
+	this->pVAO = new VertexArrayObject(*another_mesh.pVAO);
+	this->pVBO = new VertexBufferObject(*another_mesh.pVBO);
+	this->pEBO = new ElementBufferObject(*another_mesh.pEBO);
+	this->vertices = another_mesh.vertices;
+	this->indices = another_mesh.indices;
+	this->textures = another_mesh.textures;
+	return *this;
 }

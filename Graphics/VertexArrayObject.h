@@ -1,14 +1,17 @@
 #pragma once
 #include "BaseHeader.h"
+#include <memory>
 
 class VertexBufferObject;
 
+class VAOCore;
+
 class VertexArrayObject
 {
-	GLuint id;
+	std::shared_ptr<VAOCore> pcore;
 public:
 	VertexArrayObject();
-	~VertexArrayObject();
+	VertexArrayObject(const VertexArrayObject& another_VAO);
 	void link_vbo(
 		VertexBufferObject& VBO, 
 		GLuint index, 
@@ -20,4 +23,5 @@ public:
 	);
 	void bind();
 	void unbind();
+	VertexArrayObject& operator=(const VertexArrayObject& another_VAO);
 };

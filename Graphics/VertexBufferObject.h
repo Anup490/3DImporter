@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "BaseHeader.h"
+#include <memory>
 
 struct Vertex
 {
@@ -10,12 +11,15 @@ struct Vertex
 	glm::vec2 texUV;
 };
 
+class VBOCore;
+
 class VertexBufferObject
 {
-	GLuint id;
+	std::shared_ptr<VBOCore> pcore;
 public:
-	VertexBufferObject(std::vector<Vertex>& vertices, GLenum usagetype);
-	~VertexBufferObject();
+	VertexBufferObject(Vertex* vertices, GLsizeiptr size, GLenum usagetype);
+	VertexBufferObject(const VertexBufferObject& another_VBO);
 	void bind();
 	void unbind();
+	VertexBufferObject& operator=(const VertexBufferObject& another_VBO);
 };
