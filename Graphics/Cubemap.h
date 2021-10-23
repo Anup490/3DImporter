@@ -4,10 +4,11 @@
 class Cubemap
 {
 	GLuint id;
+	std::vector<Vertex>* pvertices;
 	VertexArrayObject* pVAO;
 	void load_cubemaps(std::vector<std::string>& paths);
 	GLenum get_channel(int color_channel);
-	std::vector<Vertex> get_vertices();
+	void prepare_vertices();
 public:
 	Cubemap(std::vector<std::string>& paths);
 	~Cubemap();

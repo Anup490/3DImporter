@@ -20,8 +20,8 @@ Cubemap::Cubemap(std::vector<std::string>& paths)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-	std::vector<Vertex> vertices = get_vertices();
-	VertexBufferObject VBO(vertices.data(), vertices.size() * sizeof(Vertex), GL_STATIC_DRAW);
+	prepare_vertices();
+	VertexBufferObject VBO(pvertices->data(), pvertices->size() * sizeof(Vertex), GL_STATIC_DRAW);
 	pVAO = new VertexArrayObject;
 	pVAO->link_vbo(VBO, 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 }
@@ -31,6 +31,7 @@ Cubemap::~Cubemap()
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	glDeleteTextures(1, &id);
 	delete pVAO;
+	delete pvertices;
 }
 
 void Cubemap::draw(ShaderProgram& shader)
@@ -78,9 +79,9 @@ GLenum Cubemap::get_channel(int color_channel)
 	}
 }
 
-std::vector<Vertex> Cubemap::get_vertices()
+void Cubemap::prepare_vertices()
 {
-	return std::vector<Vertex> {
+	pvertices = new std::vector<Vertex> {
 		Vertex{glm::vec3(-1.0f,  1.0f, -1.0f)},
 		Vertex{glm::vec3(-1.0f, -1.0f, -1.0f)},
 		Vertex{glm::vec3(1.0f, -1.0f, -1.0f)},
