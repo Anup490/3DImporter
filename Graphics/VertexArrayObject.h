@@ -3,7 +3,6 @@
 #include <memory>
 
 class VertexBufferObject;
-
 class VAOCore;
 
 class VertexArrayObject

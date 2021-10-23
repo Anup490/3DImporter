@@ -4,8 +4,8 @@
 
 class VAOCore
 {
-public:
 	GLuint id;
+public:
 	VAOCore()
 	{
 		glGenVertexArrays(1, &id);

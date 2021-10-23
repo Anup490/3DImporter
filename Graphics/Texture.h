@@ -1,11 +1,13 @@
 #pragma once
 #include "BaseHeader.h"
 #include <string>
+#include <memory>
+
+class TextureCore;
 
 class Texture
 {
-	GLuint id;
-	GLenum texture_container;
+	std::shared_ptr<TextureCore> pcore;
 	std::string uniform;
 	void load_texture(const char* path);
 	GLenum get_channel(int color_channel);
@@ -20,8 +22,9 @@ public:
 		GLint min_filter,
 		GLint mag_filter
 	);
-	~Texture();
+	Texture(const Texture& another_texture);
 	void activate();
 	void deactivate();
 	const char* get_uniform();
+	Texture& operator=(Texture& another_texture);
 };
