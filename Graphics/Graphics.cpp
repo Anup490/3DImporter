@@ -35,17 +35,16 @@ int fnGraphics()
 	ShaderProgram modelshader("../Main/tex.vert", "../Main/tex.frag");
 
 	glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
-	glm::vec3 camera_target(0.0f, 0.0f, 0.0f);
 	glm::vec3 camera_up(0.0f, 1.0f, 0.0f);;
 
-	Camera camera(window, camera_pos, camera_target, camera_up);
+	Camera camera(window, camera_pos, camera_up);
 	camera.set_view_matrix(skyboxshader, false);
 	camera.set_projection_matrix(skyboxshader);
 
 	CameraHandler handler(window);
 	handler.add_camera(&camera);
 
-	GLTFModel model("../Assets/statue/scene.gltf");
+	GLTFModel model("../Assets/crow/scene.gltf");
 
 	glEnable(GL_DEPTH_TEST);
 

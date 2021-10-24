@@ -5,11 +5,10 @@
 #include <glfw/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-Camera::Camera(Window& window, glm::vec3& position, glm::vec3& target, glm::vec3& up)
+Camera::Camera(Window& window, glm::vec3& position, glm::vec3& up)
 {
 	Camera::pwindow = &window;
 	Camera::position = position;
-	Camera::target = target;
 	Camera::up = up;
 	Camera::view = glm::mat4(1.0f);
 	Camera::projection = glm::mat4(1.0f);
