@@ -6,22 +6,24 @@
 #include "VertexBufferObject.h"
 #include "Camera.h"
 #include "ShaderProgram.h"
+#include <vector>
+#include "Texture.h"
 
 Mesh::Mesh
 (
-	std::vector<Vertex>& vertices,
-	std::vector<GLuint>& indices,
-	std::vector<Texture>& textures
+	std::vector<Vertex>* pvertices,
+	std::vector<GLuint>* pindices,
+	std::vector<Texture*>* ptextures
 )
 {
-	Mesh::vertices = vertices;
-	Mesh::indices = indices;
-	Mesh::textures = textures;
+	Mesh::pvertices = pvertices;
+	Mesh::pindices = pindices;
+	Mesh::ptextures = ptextures;
 	pVAO = new VertexArrayObject;
 	pVAO->bind();
-	pEBO = new ElementBufferObject(indices.data(), indices.size() * sizeof(GLuint), GL_STATIC_DRAW);
+	pEBO = new ElementBufferObject(pindices->data(), pindices->size() * sizeof(GLuint), GL_STATIC_DRAW);
 	pEBO->bind();
-	pVBO = new VertexBufferObject(vertices.data(), vertices.size() * sizeof(Vertex), GL_STATIC_DRAW);
+	pVBO = new VertexBufferObject(pvertices->data(), pvertices->size() * sizeof(Vertex), GL_STATIC_DRAW);
 	pVAO->link_vbo(*pVBO, 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	pVAO->link_vbo(*pVBO, 1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
 	pVAO->link_vbo(*pVBO, 2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(6 * sizeof(float)));
@@ -36,9 +38,9 @@ Mesh::Mesh(const Mesh& another_mesh)
 	this->pVAO = new VertexArrayObject(*another_mesh.pVAO);
 	this->pVBO = new VertexBufferObject(*another_mesh.pVBO);
 	this->pEBO = new ElementBufferObject(*another_mesh.pEBO);
-	this->vertices = another_mesh.vertices;
-	this->indices = another_mesh.indices;
-	this->textures = another_mesh.textures;
+	this->pvertices = another_mesh.pvertices;
+	this->pindices = another_mesh.pindices;
+	this->ptextures = another_mesh.ptextures;
 }
 
 Mesh::~Mesh()
@@ -61,28 +63,28 @@ void Mesh::draw
 	shader.activate();
 	pVAO->bind();
 	camera.update_matrices(shader);
-	int final_pos = textures.size() - 1;
+	int final_pos = ptextures->size() - 1;
 	for (int i = final_pos; i >= 0; i--)
 	{
-		shader.set_int_uniform(textures.at(i).get_uniform(), i);
-		textures.at(i).activate();
+		shader.set_int_uniform(ptextures->at(i)->get_uniform(), i);
+		ptextures->at(i)->activate();
 	}
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-	for (int i = 0; i < textures.size(); i++)
+	glDrawElements(GL_TRIANGLES, pindices->size(), GL_UNSIGNED_INT, 0);
+	for (int i = 0; i < ptextures->size(); i++)
 	{
-		textures.at(i).deactivate();
+		ptextures->at(i)->deactivate();
 	}
 	pVAO->unbind();
 	shader.deactivate();
 }
 
-Mesh& Mesh::operator=(Mesh& another_mesh)
+Mesh& Mesh::operator=(const Mesh& another_mesh)
 {
 	this->pVAO = new VertexArrayObject(*another_mesh.pVAO);
 	this->pVBO = new VertexBufferObject(*another_mesh.pVBO);
 	this->pEBO = new ElementBufferObject(*another_mesh.pEBO);
-	this->vertices = another_mesh.vertices;
-	this->indices = another_mesh.indices;
-	this->textures = another_mesh.textures;
+	this->pvertices = another_mesh.pvertices;
+	this->pindices = another_mesh.pindices;
+	this->ptextures = another_mesh.ptextures;
 	return *this;
 }

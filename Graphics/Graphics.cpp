@@ -45,7 +45,7 @@ int fnGraphics()
 	CameraHandler handler(window);
 	handler.add_camera(&camera);
 
-	GLTFModel model("../Assets/airplane/scene.gltf");
+	GLTFModel model("../Assets/statue/scene.gltf");
 
 	glEnable(GL_DEPTH_TEST);
 
