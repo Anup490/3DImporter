@@ -9,6 +9,10 @@
 #include <iostream>
 #include <string>
 #include <glm/gtc/type_ptr.hpp>
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include "Utils.h"
 
 GLTFModel::GLTFModel(const char* file)
 {
@@ -39,9 +43,9 @@ void GLTFModel::draw
 (
 	ShaderProgram& shader,
 	Camera& camera,
-	glm::vec3 translation,
-	glm::quat rotation,
-	glm::vec3 scale
+	vect::vec3 translation,
+	vect::vec4 rotation,
+	vect::vec3 scale
 )
 {
 	for (unsigned int i = 0; i < meshes.size(); i++)
@@ -79,11 +83,11 @@ void GLTFModel::load_mesh(json& JSON, unsigned int indMesh)
 	unsigned int ind_acc_ind = JSON["meshes"][indMesh]["primitives"][0]["indices"];
 
 	std::vector<float>* pposvec = get_floats(JSON["accessors"][pos_acc_ind], JSON);
-	std::vector<glm::vec3>* ppositions = group_floats_as_vec3(pposvec);
+	std::vector<vect::vec3>* ppositions = group_floats_as_vec3(pposvec);
 	std::vector<float>* pnormalvec = get_floats(JSON["accessors"][normal_acc_ind], JSON);
-	std::vector<glm::vec3>* pnormals = group_floats_as_vec3(pnormalvec);
+	std::vector<vect::vec3>* pnormals = group_floats_as_vec3(pnormalvec);
 	std::vector<float>* ptexvec = get_floats(JSON["accessors"][tex_acc_ind], JSON);
-	std::vector<glm::vec2>* ptexUVs = group_floats_as_vec2(ptexvec);
+	std::vector<vect::vec2>* ptexUVs = group_floats_as_vec2(ptexvec);
 
 	pvertices = assemble_vertices(ppositions, pnormals, ptexUVs);
 	pindices = get_indices(JSON["accessors"][ind_acc_ind], JSON);
@@ -99,7 +103,7 @@ void GLTFModel::load_mesh(json& JSON, unsigned int indMesh)
 	delete ptexUVs;
 }
 
-void GLTFModel::traverse_node(json& JSON, unsigned int nextNode, glm::mat4 matrix)
+void GLTFModel::traverse_node(json& JSON, unsigned int nextNode, mat::mat4 matrix)
 {
 	json node = JSON["nodes"][nextNode];
 
@@ -150,21 +154,22 @@ void GLTFModel::traverse_node(json& JSON, unsigned int nextNode, glm::mat4 matri
 	rot = glm::mat4_cast(rotation);
 	sca = glm::scale(sca, scale);
 
-	glm::mat4 matNextNode = matrix * matNode * trans * rot * sca;
+	glm::mat4 glmmatrix = to_glm_mat4(matrix);
+	glm::mat4 matNextNode = glmmatrix * matNode * trans * rot * sca;
 
 	if (node.find("mesh") != node.end())
 	{
-		translations.push_back(translation);
-		rotations.push_back(rotation);
-		scales.push_back(scale);
-		matrices.push_back(matNextNode);
+		translations.push_back(to_vect_vec3(translation));
+		rotations.push_back(to_vect_vec4(rotation));
+		scales.push_back(to_vect_vec3(scale));
+		matrices.push_back(to_mat_mat4(matNextNode));
 		load_mesh(JSON, node["mesh"]);
 	}
 
 	if (node.find("children") != node.end())
 	{
 		for (unsigned int i = 0; i < node["children"].size(); i++)
-			traverse_node(JSON, node["children"][i], matNextNode);
+			traverse_node(JSON, node["children"][i], to_mat_mat4(matNextNode));
 	}
 }
 
@@ -302,9 +307,9 @@ std::vector<Texture*>* GLTFModel::get_textures(json& JSON)
 
 std::vector<Vertex>* GLTFModel::assemble_vertices
 (
-	std::vector<glm::vec3>* ppositions,
-	std::vector<glm::vec3>* pnormals,
-	std::vector<glm::vec2>* ptextUVs
+	std::vector<vect::vec3>* ppositions,
+	std::vector<vect::vec3>* pnormals,
+	std::vector<vect::vec2>* ptextUVs
 )
 {
 	std::vector<Vertex>* pvertices = new std::vector<Vertex>();;
@@ -314,42 +319,42 @@ std::vector<Vertex>* GLTFModel::assemble_vertices
 		(
 			Vertex
 			{
-				ppositions->at(i),
-				pnormals->at(i),
+				to_glm_vec3(ppositions->at(i)),
+				to_glm_vec3(pnormals->at(i)),
 				glm::vec3(1.0f, 1.0f, 1.0f),
-				ptextUVs->at(i)
+				to_glm_vec2(ptextUVs->at(i))
 			}
 		);
 	}
 	return pvertices;
 }
 
-std::vector<glm::vec2>* GLTFModel::group_floats_as_vec2(std::vector<float>* pfloatvec)
+std::vector<vect::vec2>* GLTFModel::group_floats_as_vec2(std::vector<float>* pfloatvec)
 {
-	std::vector<glm::vec2>* pvectors = new std::vector<glm::vec2>();
+	std::vector<vect::vec2>* pvectors = new std::vector<vect::vec2>();
 	for (int i = 0; i < pfloatvec->size(); i)
 	{
-		pvectors->push_back(glm::vec2(pfloatvec->at(i++), pfloatvec->at(i++)));
+		pvectors->push_back(vect::vec2(pfloatvec->at(i++), pfloatvec->at(i++)));
 	}
 	return pvectors;
 }
 
-std::vector<glm::vec3>* GLTFModel::group_floats_as_vec3(std::vector<float>* pfloatvec)
+std::vector<vect::vec3>* GLTFModel::group_floats_as_vec3(std::vector<float>* pfloatvec)
 {
-	std::vector<glm::vec3>* pvectors = new std::vector<glm::vec3>();
+	std::vector<vect::vec3>* pvectors = new std::vector<vect::vec3>();
 	for (int i = 0; i < pfloatvec->size(); i)
 	{
-		pvectors->push_back(glm::vec3(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
+		pvectors->push_back(vect::vec3(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
 	}
 	return pvectors;
 }
 
-std::vector<glm::vec4>* GLTFModel::group_floats_as_vec4(std::vector<float>* pfloatvec)
+std::vector<vect::vec4>* GLTFModel::group_floats_as_vec4(std::vector<float>* pfloatvec)
 {
-	std::vector<glm::vec4>* pvectors = new std::vector<glm::vec4>();
+	std::vector<vect::vec4>* pvectors = new std::vector<vect::vec4>();
 	for (int i = 0; i < pfloatvec->size(); i)
 	{
-		pvectors->push_back(glm::vec4(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
+		pvectors->push_back(vect::vec4(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
 	}
 	return pvectors;
 }

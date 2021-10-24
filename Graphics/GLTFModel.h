@@ -1,8 +1,7 @@
 #pragma once
 #include "BaseHeader.h"
 #include "BaseModel.h"
-#include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
+#include "Matrix.h"
 
 namespace nlohmann
 {
@@ -36,19 +35,19 @@ public:
 	(
 		ShaderProgram& shader,
 		Camera& camera,
-		glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
-		glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)
+		vect::vec3 translation = vect::vec3(0.0f, 0.0f, 0.0f),
+		vect::vec4 rotation = vect::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+		vect::vec3 scale = vect::vec3(1.0f, 1.0f, 1.0f)
 	) override;
 private:
 	const char* file;
 	std::vector<unsigned char>* pdata;
 
 	std::vector<Mesh> meshes;
-	std::vector<glm::vec3> translations;
-	std::vector<glm::quat> rotations;
-	std::vector<glm::vec3> scales;
-	std::vector<glm::mat4> matrices;
+	std::vector<vect::vec3> translations;
+	std::vector<vect::vec4> rotations;
+	std::vector<vect::vec3> scales;
+	std::vector<mat::mat4> matrices;
 
 	std::vector<std::string>* ploadedtexname;
 	std::vector<Texture*>* ploadedtex;
@@ -58,7 +57,7 @@ private:
 
 	std::string extract_file(const char* path);
 	void load_mesh(json& JSON, unsigned int indMesh);
-	void traverse_node(json& JSON, unsigned int nextNode, glm::mat4 matrix = glm::mat4(1.0f));
+	void traverse_node(json& JSON, unsigned int nextNode, mat::mat4 matrix = mat::mat4(1.0f));
 	std::vector<unsigned char>* get_data(json& JSON);
 
 	std::vector<float>* get_floats(json& accessor, json& JSON);
@@ -67,12 +66,12 @@ private:
 
 	std::vector<Vertex>* assemble_vertices
 	(
-		std::vector<glm::vec3>* ppositions,
-		std::vector<glm::vec3>* pnormals,
-		std::vector<glm::vec2>* ptextUVs
+		std::vector<vect::vec3>* ppositions,
+		std::vector<vect::vec3>* pnormals,
+		std::vector<vect::vec2>* ptextUVs
 	);
 
-	std::vector<glm::vec2>* group_floats_as_vec2(std::vector<float>* pfloatvec);
-	std::vector<glm::vec3>* group_floats_as_vec3(std::vector<float>* pfloatvec);
-	std::vector<glm::vec4>* group_floats_as_vec4(std::vector<float>* pfloatvec);
+	std::vector<vect::vec2>* group_floats_as_vec2(std::vector<float>* pfloatvec);
+	std::vector<vect::vec3>* group_floats_as_vec3(std::vector<float>* pfloatvec);
+	std::vector<vect::vec4>* group_floats_as_vec4(std::vector<float>* pfloatvec);
 };

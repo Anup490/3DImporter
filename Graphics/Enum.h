@@ -15,6 +15,7 @@ struct Enum
 	static Enum TEXTURE_WRAP_MIRROR;
 	static Enum TEXTURE_FILTER_LINEAR;
 	static Enum TEXTURE_FILTER_NEAREST;
+	static Enum TEXTURE_CONTAINER_0;
 	static Enum COLOR_CHANNEL_RGB;
 	static Enum COLOR_CHANNEL_RGBA;
 	static Enum TRIANGLES;

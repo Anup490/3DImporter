@@ -2,31 +2,36 @@
 #include "Camera.h"
 #include "Window.h"
 #include "ShaderProgram.h"
+#include "Utils.h"
 #include <glfw/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
 
-Camera::Camera(Window& window, glm::vec3& position, glm::vec3& up)
+Camera::Camera(Window& window, vect::vec3& position, vect::vec3& up)
 {
 	Camera::pwindow = &window;
 	Camera::position = position;
 	Camera::up = up;
-	Camera::normal = glm::normalize(up);
-	Camera::front = glm::normalize(get_orientation());
+	Camera::normal = to_vect_vec3(glm::normalize(glm::vec3(up.x, up.y, up.z)));
+	Camera::front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
 }
 
-void Camera::set_model_matrix(ShaderProgram& program, glm::vec3& item_pos, glm::vec3 rotate_axis, float rotate_angle, glm::vec3 scalar)
+void Camera::set_model_matrix(ShaderProgram& program, vect::vec3& item_pos, vect::vec3 rotate_axis, float rotate_angle, vect::vec3 scalar)
 {
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::scale(model, scalar);
-	model = glm::translate(model, item_pos);
-	model = glm::rotate(model, glm::radians(rotate_angle), rotate_axis);
-	program.set_mat4_uniform("model", model);
+	model = glm::scale(model, glm::vec3(scalar.x, scalar.y, scalar.z));
+	model = glm::translate(model, glm::vec3(item_pos.x, item_pos.y, item_pos.z));
+	model = glm::rotate(model, glm::radians(rotate_angle), glm::vec3(rotate_axis.x, rotate_axis.y, rotate_axis.z));
+	program.set_mat4_uniform("model", to_mat_mat4(model));
 }
 
 void Camera::set_view_matrix(ShaderProgram& program, bool keep_translation)
 {
-	glm::mat4 view = (keep_translation)?glm::lookAt(position, position + front, normal):glm::mat4(glm::mat3(glm::lookAt(position, position + front, normal)));
-	program.set_mat4_uniform("view", view);
+	glm::vec3 glmposition = to_glm_vec3(position);
+	glm::vec3 glmfront = to_glm_vec3(front);
+	glm::vec3 glmnormal = to_glm_vec3(normal);
+	glm::mat4 view = (keep_translation)?glm::lookAt(glmposition, glmposition + glmfront, glmnormal):glm::mat4(glm::mat3(glm::lookAt(glmposition, glmposition + glmfront, glmnormal)));
+	program.set_mat4_uniform("view", to_mat_mat4(view));
 	program.deactivate();
 }
 
@@ -34,29 +39,36 @@ void Camera::set_projection_matrix(ShaderProgram& program, float aspect_ratio, f
 {
 	Camera::fov = fov;
 	glm::mat4 projection = glm::perspective(fov, aspect_ratio, 0.1f, 100.0f);
-	program.set_mat4_uniform("projection", projection);
+	program.set_mat4_uniform("projection", to_mat_mat4(projection));
 	program.deactivate();
 }
 
 void Camera::update_position()
 {
 	const float speed = 10.0f * get_delta_time();
+	glm::vec3 glmposition = to_glm_vec3(position);
+	glm::vec3 glmfront = to_glm_vec3(front);
+	glm::vec3 glmnormal = to_glm_vec3(normal);
 	if (pwindow->has_pressed(GLFW_KEY_W))
-		position += speed * glm::normalize(front);
+		glmposition += speed * glm::normalize(glmfront);
 	if (pwindow->has_pressed(GLFW_KEY_S))
-		position -= speed * glm::normalize(front);
+		glmposition -= speed * glm::normalize(glmfront);
 	if (pwindow->has_pressed(GLFW_KEY_A))
-		position -= speed * glm::normalize(glm::cross(front, normal));
+		glmposition -= speed * glm::normalize(glm::cross(glmfront, glmnormal));
 	if (pwindow->has_pressed(GLFW_KEY_D))
-		position += speed * glm::normalize(glm::cross(front, normal));
+		glmposition += speed * glm::normalize(glm::cross(glmfront, glmnormal));
+	position = to_vect_vec3(glmposition);
 }
 
 void Camera::update_matrices(ShaderProgram& program)
 {
-	glm::mat4 view = glm::lookAt(position, position + front, normal);
-	program.set_mat4_uniform("view", view);
+	glm::vec3 glmposition = to_glm_vec3(position);
+	glm::vec3 glmfront = to_glm_vec3(front);
+	glm::vec3 glmnormal = to_glm_vec3(normal);
+	glm::mat4 view = glm::lookAt(glmposition, glmposition + glmfront, glmnormal);
+	program.set_mat4_uniform("view", to_mat_mat4(view));
 	glm::mat4 projection = glm::perspective(glm::radians(fov), aspect_ratio, 0.1f, 100.0f);
-	program.set_mat4_uniform("projection", projection);
+	program.set_mat4_uniform("projection", to_mat_mat4(projection));
 }
 
 void Camera::on_mouse_move(GLFWwindow* window, double xpos, double ypos)
@@ -80,7 +92,7 @@ void Camera::on_mouse_move(GLFWwindow* window, double xpos, double ypos)
 		pitch = 89.0f;
 	if (pitch < -89.0f)
 		pitch = -89.0f;
-	front = glm::normalize(get_orientation());
+	front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
 }
 
 void Camera::on_scroll(GLFWwindow* window, double xpos, double ypos)
@@ -96,19 +108,19 @@ void Camera::on_scroll(GLFWwindow* window, double xpos, double ypos)
 	}
 }
 
-glm::vec3 Camera::get_position()
+vect::vec3 Camera::get_position()
 {
-	return position;
+	return vect::vec3(position.x, position.y, position.z);
 }
 
-glm::vec3 Camera::get_front()
+vect::vec3 Camera::get_front()
 {
-	return front;
+	return vect::vec3(front.x, front.y, front.z);
 }
 
-glm::vec3 Camera::get_orientation()
+vect::vec3 Camera::get_orientation()
 {
-	glm::vec3 orientation;
+	vect::vec3 orientation(1.0f);
 	orientation.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	orientation.y = sin(glm::radians(pitch));
 	orientation.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));

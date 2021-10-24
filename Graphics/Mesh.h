@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseHeader.h"
-#include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
+#include "Vectors.h"
+#include "Matrix.h"
 
 class Mesh
 {
@@ -24,10 +24,10 @@ public:
 	(
 		ShaderProgram& shader,
 		Camera& camera,
-		glm::mat4 matrix = glm::mat4(1.0f),
-		glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
-		glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)
+		mat::mat4 matrix = mat::mat4(1.0f),
+		vect::vec3 translation = vect::vec3(0.0f, 0.0f, 0.0f),
+		vect::vec4 rotation = vect::vec4(1.0f, 0.0f, 0.0f, 0.0f),
+		vect::vec3 scale = vect::vec3(1.0f, 1.0f, 1.0f)
 	);
 	Mesh& operator=(const Mesh& another_mesh);
 };

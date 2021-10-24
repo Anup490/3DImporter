@@ -1,13 +1,14 @@
 #pragma once
 #include "BaseHeader.h"
+#include "Vectors.h"
 
 class BaseModel
 {
 	virtual void draw(
 		ShaderProgram& shader,
 		Camera& camera,
-		glm::vec3 translation,
-		glm::quat rotation,
-		glm::vec3 scale
+		vect::vec3 translation,
+		vect::vec4 rotation,
+		vect::vec3 scale
 	) = 0;
 };

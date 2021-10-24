@@ -1,6 +1,4 @@
 #pragma once
-#include <glm/fwd.hpp>
-#include <glad/glad.h>
 namespace std
 {
 	template <class _Ty>
@@ -26,16 +24,6 @@ namespace std
 	using string = basic_string<char, char_traits<char>, allocator<char>>;
 }
 
-namespace glm
-{
-	template<int a, typename T, qualifier Q>
-	struct vec;
-	template<typename T, qualifier Q>
-	struct qua;
-	template<int a, int b, typename T, qualifier Q>
-	struct mat;
-}
-
 struct Vertex;
 
 class GLFWwindow;
@@ -47,3 +35,10 @@ class ElementBufferObject;
 class ShaderProgram;
 class Camera;
 class Texture;
+
+typedef int GLint;
+typedef int GLsizei;
+typedef unsigned int GLuint;
+typedef unsigned int GLenum;
+typedef unsigned char GLboolean;
+typedef signed long long int GLsizeiptr;

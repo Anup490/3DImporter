@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <glm/glm.hpp>
+#include <glad/glad.h>
 #include "Cubemap.h"
 #include "VertexBufferObject.h"
 #include "VertexArrayObject.h"

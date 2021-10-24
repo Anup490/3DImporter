@@ -8,6 +8,9 @@
 #include "ShaderProgram.h"
 #include <vector>
 #include "Texture.h"
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 Mesh::Mesh
 (
@@ -54,10 +57,10 @@ void Mesh::draw
 (
 	ShaderProgram& shader,
 	Camera& camera,
-	glm::mat4 matrix,
-	glm::vec3 translation,
-	glm::quat rotation,
-	glm::vec3 scale
+	mat::mat4 matrix,
+	vect::vec3 translation,
+	vect::vec4 rotation,
+	vect::vec3 scale
 )
 {
 	shader.activate();

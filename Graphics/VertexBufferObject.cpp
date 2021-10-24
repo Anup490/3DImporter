@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "VertexBufferObject.h"
+#include <glad/glad.h>
 
 class VBOCore
 {

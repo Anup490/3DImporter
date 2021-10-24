@@ -5,6 +5,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include "Utils.h"
 
 Window::Window(const char* title, int width, int height)
 {
@@ -67,9 +68,9 @@ void Window::initialize_glad(int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void Window::clear_color_buffer(glm::vec4& color, Enum bits)
+void Window::clear_color_buffer(vect::vec4& color, Enum bits)
 {
-	glClearColor(color.r,color.g,color.b,color.a);
+	glClearColor(color.x,color.y,color.z,color.w);
 	glClear(bits.val);
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 #include "BaseHeader.h"
+#include "Matrix.h"
+#include "Vectors.h"
 
 class ShaderProgram
 {
@@ -17,7 +19,7 @@ public:
 	void deactivate();
 	void set_float_uniform(const char* name, float value);
 	void set_int_uniform(const char* name, int value);
-	void set_mat4_uniform(const char* name, glm::mat4 value);
-	void set_vec3_uniform(const char* name, glm::vec3 value);
+	void set_mat4_uniform(const char* name, mat::mat4 value);
+	void set_vec3_uniform(const char* name, vect::vec3 value);
 	GLuint get_id();
 };

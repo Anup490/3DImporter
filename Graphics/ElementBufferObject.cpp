@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ElementBufferObject.h"
+#include <glad/glad.h>
 
 class EBOCore
 {

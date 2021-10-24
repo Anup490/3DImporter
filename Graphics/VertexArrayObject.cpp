@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "VertexBufferObject.h"
 #include "VertexArrayObject.h"
+#include <glad/glad.h>
 
 class VAOCore
 {
