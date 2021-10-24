@@ -10,8 +10,6 @@ Camera::Camera(Window& window, glm::vec3& position, glm::vec3& up)
 	Camera::pwindow = &window;
 	Camera::position = position;
 	Camera::up = up;
-	Camera::view = glm::mat4(1.0f);
-	Camera::projection = glm::mat4(1.0f);
 	Camera::normal = glm::normalize(up);
 	Camera::front = glm::normalize(get_orientation());
 }
@@ -27,16 +25,16 @@ void Camera::set_model_matrix(ShaderProgram& program, glm::vec3& item_pos, glm::
 
 void Camera::set_view_matrix(ShaderProgram& program, bool keep_translation)
 {
-	Camera::view = (keep_translation)?glm::lookAt(position, position + front, normal):glm::mat4(glm::mat3(glm::lookAt(position, position + front, normal)));
-	program.set_mat4_uniform("view", Camera::view);
+	glm::mat4 view = (keep_translation)?glm::lookAt(position, position + front, normal):glm::mat4(glm::mat3(glm::lookAt(position, position + front, normal)));
+	program.set_mat4_uniform("view", view);
 	program.deactivate();
 }
 
 void Camera::set_projection_matrix(ShaderProgram& program, float aspect_ratio, float fov)
 {
 	Camera::fov = fov;
-	Camera::projection = glm::perspective(fov, aspect_ratio, 0.1f, 100.0f);
-	program.set_mat4_uniform("projection", Camera::projection);
+	glm::mat4 projection = glm::perspective(fov, aspect_ratio, 0.1f, 100.0f);
+	program.set_mat4_uniform("projection", projection);
 	program.deactivate();
 }
 
@@ -55,9 +53,9 @@ void Camera::update_position()
 
 void Camera::update_matrices(ShaderProgram& program)
 {
-	Camera::view = glm::lookAt(position, position + front, normal);
+	glm::mat4 view = glm::lookAt(position, position + front, normal);
 	program.set_mat4_uniform("view", view);
-	Camera::projection = glm::perspective(glm::radians(fov), aspect_ratio, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(fov), aspect_ratio, 0.1f, 100.0f);
 	program.set_mat4_uniform("projection", projection);
 }
 

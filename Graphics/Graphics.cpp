@@ -1,18 +1,13 @@
 #include "pch.h"
 #include "framework.h"
 #include <iostream>
-#include <glad/glad.h>
 #include <vector>
 #include "Window.h"
 #include "ShaderProgram.h"
-#include "VertexBufferObject.h"
-#include "VertexArrayObject.h"
 #include "Camera.h"
 #include "CameraHandler.h"
 #include "Cubemap.h"
-#include "Enums.h"
-#include "Mesh.h"
-#include "Texture.h"
+#include "Enum.h"
 #include "GLTFModel.h"
 
 int fnGraphics()
@@ -46,17 +41,17 @@ int fnGraphics()
 
 	GLTFModel model("../Assets/crow/scene.gltf");
 
-	glEnable(GL_DEPTH_TEST);
+	window.enable_feature(Enum::DEPTH_TEST);
 
 	glm::vec4 color(1.0f, 0.65f, 0.0f, 1.0f);
 
 	while (window.should_stay())
 	{
-		window.clear_color_buffer(color, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		window.enable_depth_mask(FALSE);
+		window.clear_color_buffer(color, Enum::COLOR_DEPTH_BUFFER_BIT);
+		window.enable_depth_mask(false);
 		camera.update_position();
 		cubemap.draw(skyboxshader);
-		window.enable_depth_mask(TRUE);
+		window.enable_depth_mask(true);
 		model.draw(modelshader, camera);
 		window.run_swapbuffer_eventpoller();
 	}

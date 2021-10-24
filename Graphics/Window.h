@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseHeader.h"
+#include "Enum.h"
 
 class GLFWwindow;
 class Window
@@ -17,6 +18,7 @@ public:
 	double get_current_time();
 	bool has_pressed(int key);
 	void activate_mouse_input(function mouse_callback, function scroll_callback);
-	void clear_color_buffer(glm::vec4& color, GLenum bits);
-	void enable_depth_mask(GLboolean flag);
+	void clear_color_buffer(glm::vec4& color, Enum bits);
+	void enable_depth_mask(bool flag);
+	void enable_feature(Enum cap);
 };

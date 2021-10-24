@@ -7,7 +7,6 @@ class ShaderProgram;
 
 class Camera : public BaseCamera
 {
-	glm::mat4 view, projection;
 	glm::vec3 position, up, normal;
 	Window* pwindow;
 	float last_frame = 0.0f, yaw = -90.0f, pitch = 0.0f, lastX = 0.0f, lastY = 0.0f, fov = 45.0f, aspect_ratio = 1.0f;

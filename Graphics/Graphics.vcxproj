@@ -185,7 +185,7 @@
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="Cubemap.h" />
     <ClInclude Include="ElementBufferObject.h" />
-    <ClInclude Include="Enums.h" />
+    <ClInclude Include="Enum.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GLTFModel.h" />
     <ClInclude Include="Graphics.h" />
@@ -203,6 +203,7 @@
     <ClCompile Include="CameraHandler.cpp" />
     <ClCompile Include="Cubemap.cpp" />
     <ClCompile Include="ElementBufferObject.cpp" />
+    <ClCompile Include="Enum.cpp" />
     <ClCompile Include="glad.cpp" />
     <ClCompile Include="GLTFModel.cpp" />
     <ClCompile Include="Graphics.cpp" />
