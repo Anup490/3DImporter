@@ -3,9 +3,15 @@
 #include "Window.h"
 #include "ShaderProgram.h"
 #include "Utils.h"
-#include <glfw/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
+
+//#define MOUSE_MOVE
+#define MOUSE_DRAG
+
+#include <iostream>
 
 Camera::Camera(Window& window, vect::vec3& position, vect::vec3& up)
 {
@@ -49,15 +55,16 @@ void Camera::update_position()
 	glm::vec3 glmposition = to_glm_vec3(position);
 	glm::vec3 glmfront = to_glm_vec3(front);
 	glm::vec3 glmnormal = to_glm_vec3(normal);
-	if (pwindow->has_pressed(GLFW_KEY_W))
+	if (pwindow->has_pressed_key(Enum::KEY_W))
 		glmposition += speed * glm::normalize(glmfront);
-	if (pwindow->has_pressed(GLFW_KEY_S))
+	if (pwindow->has_pressed_key(Enum::KEY_S))
 		glmposition -= speed * glm::normalize(glmfront);
-	if (pwindow->has_pressed(GLFW_KEY_A))
+	if (pwindow->has_pressed_key(Enum::KEY_A))
 		glmposition -= speed * glm::normalize(glm::cross(glmfront, glmnormal));
-	if (pwindow->has_pressed(GLFW_KEY_D))
+	if (pwindow->has_pressed_key(Enum::KEY_D))
 		glmposition += speed * glm::normalize(glm::cross(glmfront, glmnormal));
 	position = to_vect_vec3(glmposition);
+	handle_drag();
 }
 
 void Camera::update_matrices(ShaderProgram& program)
@@ -73,6 +80,7 @@ void Camera::update_matrices(ShaderProgram& program)
 
 void Camera::on_mouse_move(GLFWwindow* window, double xpos, double ypos)
 {
+#ifdef MOUSE_MOVE
 	if (first_mouse)
 	{
 		lastX = xpos;
@@ -93,6 +101,7 @@ void Camera::on_mouse_move(GLFWwindow* window, double xpos, double ypos)
 	if (pitch < -89.0f)
 		pitch = -89.0f;
 	front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
+#endif
 }
 
 void Camera::on_scroll(GLFWwindow* window, double xpos, double ypos)
@@ -133,4 +142,72 @@ float Camera::get_delta_time()
 	delta_time = current_frame - last_frame;
 	last_frame = current_frame;
 	return delta_time;
+}
+
+bool click_imgui = false;
+
+void Camera::handle_drag()
+{
+#ifdef MOUSE_DRAG
+	vect::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
+	if (mouse_pos.x < 550.0f || mouse_pos.y > 400.0f)
+	{
+		click_imgui = false;
+	}
+	if (click_imgui)
+	{
+		return;
+	}
+	if (mouse_pos.x >=550 && mouse_pos.x <=800)
+	{
+		if (mouse_pos.y >= 0 && mouse_pos.y <=100)
+		{
+			click_imgui = true;
+			return;
+		}
+		else 
+		{
+			goto mouse_block;
+		}
+	}
+	else
+	{
+		goto mouse_block;
+	}
+	
+	mouse_block:
+		if (pwindow->has_pressed_mouse_btn(Enum::MOUSE_BTN_LEFT))
+		{
+			pwindow->show_mouse_cursor(false);
+			vect::vec2 window_dimension = pwindow->get_dimensions();
+			float width = window_dimension.x;
+			float height = window_dimension.y;
+
+			if (first_mouse)
+			{
+				pwindow->set_mouse_cursor_pos((width / 2), (height / 2));
+				first_mouse = false;
+			}
+			mouse_pos = pwindow->get_mouse_cursor_pos();
+
+			float sensitivity = 100.0f;
+			float rotX = sensitivity * (float)(mouse_pos.y - (height / 2)) / height;
+			float rotY = sensitivity * (float)(mouse_pos.x - (width / 2)) / width;
+			glm::vec3 Orientation = to_glm_vec3(front);
+			glm::vec3 Up = to_glm_vec3(up);
+			glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
+			if (abs(glm::angle(newOrientation, Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
+			{
+				Orientation = newOrientation;
+			}
+			Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
+			pwindow->set_mouse_cursor_pos((width / 2), (height / 2));
+			front = to_vect_vec3(glm::normalize(Orientation));
+		}
+		else if (pwindow->has_released_mouse_btn(Enum::MOUSE_BTN_LEFT))
+		{
+			pwindow->show_mouse_cursor(true);
+			first_mouse = true;
+		}
+#endif
 }

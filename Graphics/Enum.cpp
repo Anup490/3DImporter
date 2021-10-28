@@ -1,5 +1,7 @@
 #include "pch.h"
+#include "imgui/imgui.h"
 #include <glad/glad.h>
+#include <glfw/glfw3.h>
 #include "Enum.h"
 
 //VBO usage types
@@ -28,5 +30,17 @@ Enum Enum::TRIANGLES = Enum(GL_TRIANGLES);
 //buffers
 Enum Enum::COLOR_DEPTH_BUFFER_BIT = Enum(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//test
+//tests
 Enum Enum::DEPTH_TEST = Enum(GL_DEPTH_TEST);
+
+//keys
+Enum Enum::KEY_W = Enum(GLFW_KEY_W);
+Enum Enum::KEY_A = Enum(GLFW_KEY_A);
+Enum Enum::KEY_S = Enum(GLFW_KEY_S);
+Enum Enum::KEY_D = Enum(GLFW_KEY_D);
+
+//mouse
+Enum Enum::MOUSE_BTN_LEFT = Enum(GLFW_MOUSE_BUTTON_LEFT);
+
+//imgui
+Enum Enum::DISABLE_MOVE_COLLAPSE_TITLE_RESIZE = Enum(ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);

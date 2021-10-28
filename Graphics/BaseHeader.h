@@ -26,7 +26,7 @@ namespace std
 
 struct Vertex;
 
-class GLFWwindow;
+struct GLFWwindow;
 class Window;
 class BaseCamera;
 class VertexArrayObject;

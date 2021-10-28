@@ -21,6 +21,12 @@ struct Enum
 	static Enum TRIANGLES;
 	static Enum COLOR_DEPTH_BUFFER_BIT;
 	static Enum DEPTH_TEST;
+	static Enum KEY_W;
+	static Enum KEY_A;
+	static Enum KEY_S;
+	static Enum KEY_D;
+	static Enum MOUSE_BTN_LEFT;
+	static Enum DISABLE_MOVE_COLLAPSE_TITLE_RESIZE;
 private:
 	Enum(GLenum value)
 	{

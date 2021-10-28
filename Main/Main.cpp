@@ -7,6 +7,8 @@
 #include "Cubemap.h"
 #include "Enum.h"
 #include "GLTFModel.h"
+#include "Widgets.h"
+#include "Im_GUI.h"
 
 int main()
 {
@@ -42,6 +44,22 @@ int main()
 
 	vect::vec4 color(1.0f, 0.65f, 0.0f, 1.0f);
 
+	bool draw_triangle = false;
+	float size = 1.0f;
+	float color_f[4] = { 1.0f, 0.75f, 0.8f, 1.0f };
+
+	TextWidget textwidget("Configure triangle");
+	SliderWidget sliderwidget("Size", &size, 0.5f, 2.0f);
+	CheckboxWidget checkboxwidget("Draw triangle", &draw_triangle);
+	ColorEdit4Widget coloreditwidget("Color", color_f);
+
+	std::vector<BaseWidget*> widgets;
+	widgets.push_back(&textwidget);
+	widgets.push_back(&sliderwidget);
+	widgets.push_back(&checkboxwidget);
+	widgets.push_back(&coloreditwidget);
+
+	ImGUI gui(&window, vect::vec2(550, 0), vect::vec2(250, 100));
 	while (window.should_stay())
 	{
 		window.clear_color_buffer(color, Enum::COLOR_DEPTH_BUFFER_BIT);
@@ -50,6 +68,7 @@ int main()
 		cubemap.draw(skyboxshader);
 		window.enable_depth_mask(true);
 		model.draw(modelshader, camera);
+		gui.draw("Triangle settings", &widgets, Enum::DISABLE_MOVE_COLLAPSE_TITLE_RESIZE);
 		window.run_swapbuffer_eventpoller();
 	}
 	return 0;

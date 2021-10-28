@@ -14,6 +14,7 @@ class Camera : public BaseCamera
 	bool first_mouse = true;
 	vect::vec3 get_orientation();
 	float get_delta_time();
+	void handle_drag();
 public:
 	Camera(Window& window, vect::vec3& position, vect::vec3& up);
 	void set_model_matrix(ShaderProgram& program, vect::vec3& item_pos, vect::vec3 rotate_axis, float rotate_angle = 0.0f, vect::vec3 scalar = vect::vec3(1.0f));

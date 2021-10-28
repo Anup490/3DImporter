@@ -55,12 +55,24 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{109d8db1-5f84-4b45-9ae2-ba7cf2d97c08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{f2c306b0-1db2-45da-9133-abdb8b1cf99a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Libs\imgui">
+      <UniqueIdentifier>{a9643cbc-0a01-4aca-8d73-de67f079437e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{d02e58c0-9989-499d-83f4-ba3e27a9e6b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\imgui">
+      <UniqueIdentifier>{aa6ad7fc-0fa6-499f-81d4-ddd3bbbe11cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI\imgui">
+      <UniqueIdentifier>{a0f61995-8aa8-4f38-8f7e-6f32f93e583a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
@@ -117,6 +129,15 @@
     <ClInclude Include="BaseModel.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Widgets.h">
+      <Filter>Header Files\GUI\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\include\pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Im_GUI.h">
+      <Filter>Header Files\GUI\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -166,6 +187,30 @@
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\include\imgui\imgui_widgets.cpp">
+      <Filter>Source Files\Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\include\imgui\imgui_tables.cpp">
+      <Filter>Source Files\Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\include\imgui\imgui_impl_opengl3.cpp">
+      <Filter>Source Files\Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\include\imgui\imgui_impl_glfw.cpp">
+      <Filter>Source Files\Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\include\imgui\imgui_draw.cpp">
+      <Filter>Source Files\Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\include\imgui\imgui_demo.cpp">
+      <Filter>Source Files\Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\include\imgui\imgui.cpp">
+      <Filter>Source Files\Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Im_GUI.cpp">
+      <Filter>Source Files\GUI\imgui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
