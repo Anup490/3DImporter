@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "ShaderProgram.h"
 #include "Utils.h"
+#include "Im_GUI.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
@@ -13,13 +14,14 @@
 
 #include <iostream>
 
-Camera::Camera(Window& window, vect::vec3& position, vect::vec3& up)
+Camera::Camera(Window& window, ImGUI& imgui, vect::vec3& position, vect::vec3& up)
 {
 	Camera::pwindow = &window;
 	Camera::position = position;
 	Camera::up = up;
 	Camera::normal = to_vect_vec3(glm::normalize(glm::vec3(up.x, up.y, up.z)));
 	Camera::front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
+	set_imgui_vectors(imgui);
 }
 
 void Camera::set_model_matrix(ShaderProgram& program, vect::vec3& item_pos, vect::vec3 rotate_axis, float rotate_angle, vect::vec3 scalar)
@@ -127,6 +129,14 @@ vect::vec3 Camera::get_front()
 	return vect::vec3(front.x, front.y, front.z);
 }
 
+void Camera::set_imgui_vectors(ImGUI& imgui)
+{
+	vect::vec2 position = imgui.get_position();
+	vect::vec2 size = imgui.get_size();
+	imgui_min = vect::vec2(position.x, position.y);
+	imgui_max = vect::vec2(position.x + size.x, position.y + size.y);
+}
+
 vect::vec3 Camera::get_orientation()
 {
 	vect::vec3 orientation(1.0f);
@@ -144,70 +154,79 @@ float Camera::get_delta_time()
 	return delta_time;
 }
 
-bool click_imgui = false;
-
 void Camera::handle_drag()
 {
 #ifdef MOUSE_DRAG
-	vect::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
-	if (mouse_pos.x < 550.0f || mouse_pos.y > 400.0f)
+	if (pwindow->has_pressed_mouse_btn(Enum::MOUSE_BTN_LEFT))
 	{
-		click_imgui = false;
-	}
-	if (click_imgui)
-	{
-		return;
-	}
-	if (mouse_pos.x >=550 && mouse_pos.x <=800)
-	{
-		if (mouse_pos.y >= 0 && mouse_pos.y <=100)
-		{
-			click_imgui = true;
-			return;
-		}
-		else 
-		{
-			goto mouse_block;
-		}
-	}
-	else
-	{
-		goto mouse_block;
-	}
-	
-	mouse_block:
-		if (pwindow->has_pressed_mouse_btn(Enum::MOUSE_BTN_LEFT))
+		if (should_drag())
 		{
 			pwindow->show_mouse_cursor(false);
 			vect::vec2 window_dimension = pwindow->get_dimensions();
 			float width = window_dimension.x;
 			float height = window_dimension.y;
-
 			if (first_mouse)
 			{
 				pwindow->set_mouse_cursor_pos((width / 2), (height / 2));
 				first_mouse = false;
 			}
-			mouse_pos = pwindow->get_mouse_cursor_pos();
-
+			vect::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
 			float sensitivity = 100.0f;
-			float rotX = sensitivity * (float)(mouse_pos.y - (height / 2)) / height;
-			float rotY = sensitivity * (float)(mouse_pos.x - (width / 2)) / width;
-			glm::vec3 Orientation = to_glm_vec3(front);
-			glm::vec3 Up = to_glm_vec3(up);
-			glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
-			if (abs(glm::angle(newOrientation, Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
+			float pitch = sensitivity * (float)(mouse_pos.y - (height / 2)) / height;
+			float yaw = sensitivity * (float)(mouse_pos.x - (width / 2)) / width;
+			glm::vec3 glmfront = to_glm_vec3(front);
+			glm::vec3 glmup = to_glm_vec3(up);
+			glm::vec3 new_glmfront = glm::rotate(glmfront, glm::radians(-pitch), glm::normalize(glm::cross(glmfront, glmup)));
+			if (abs(glm::angle(new_glmfront, glmup) - glm::radians(90.0f)) <= glm::radians(85.0f))
 			{
-				Orientation = newOrientation;
+				glmfront = new_glmfront;
 			}
-			Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
+			glmfront = glm::rotate(glmfront, glm::radians(-yaw), glmup);
 			pwindow->set_mouse_cursor_pos((width / 2), (height / 2));
-			front = to_vect_vec3(glm::normalize(Orientation));
+			front = to_vect_vec3(glm::normalize(glmfront));
 		}
-		else if (pwindow->has_released_mouse_btn(Enum::MOUSE_BTN_LEFT))
-		{
-			pwindow->show_mouse_cursor(true);
-			first_mouse = true;
-		}
+	}
+	else if (pwindow->has_released_mouse_btn(Enum::MOUSE_BTN_LEFT))
+	{
+		pwindow->show_mouse_cursor(true);
+		first_mouse = true;
+	}
 #endif
+}
+
+bool Camera::should_drag()
+{
+	vect::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
+	vect::vec2 window_dim = pwindow->get_dimensions().y;
+	if (should_disable_imgui_focus(mouse_pos, window_dim))
+	{
+		focus_imgui = false;
+	}
+	if (mouse_pos.x >= imgui_min.x && mouse_pos.x <= imgui_max.x && mouse_pos.y >= imgui_min.y && mouse_pos.y <= imgui_max.y)
+	{
+		focus_imgui = true;
+	}
+	return !focus_imgui;
+}
+
+bool Camera::should_disable_imgui_focus(vect::vec2& mouse_pos, vect::vec2 window_dim)
+{
+	bool disable = false;
+	if (imgui_max.x >= window_dim.x)
+	{
+		disable = (mouse_pos.x < (imgui_min.x - 100.0f)) || (mouse_pos.x > imgui_max.x);
+	}
+	else
+	{
+		disable = (mouse_pos.x < imgui_min.x) || (mouse_pos.x > (imgui_max.x + 200.0f));
+	}
+	if (imgui_max.y >= window_dim.y)
+	{
+		disable = disable && ((mouse_pos.y < imgui_min.y) || (mouse_pos.y > (imgui_max.y + 100.0f)));		
+	}
+	else
+	{
+		disable = disable && ((mouse_pos.y < (imgui_min.y - 100.0f)) || (mouse_pos.y > imgui_max.y));	
+	}
+	return disable;
 }

@@ -11,10 +11,14 @@ class ImGUI
 	Window* pwindow;
 	vect::vec2 position;
 	vect::vec2 size;
+	std::vector<BaseWidget*>* pwidgets;
 	void initialize();
-	void set_widget(BaseWidget* pwidget);
+	void set_widget(BaseWidget* widget);
 public:
 	ImGUI(Window* pwindow, vect::vec2 position, vect::vec2 size);
 	~ImGUI();
-	void draw(const char* title, std::vector<BaseWidget*>* pwidgets, Enum flag);
+	void add_widget(BaseWidget* pwidget);
+	void draw(const char* title, Enum flag);
+	vect::vec2 get_position();
+	vect::vec2 get_size();
 };

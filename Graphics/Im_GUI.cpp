@@ -13,6 +13,7 @@ ImGUI::ImGUI(Window* pwindow, vect::vec2 position, vect::vec2 size)
 	this->pwindow = pwindow;
 	this->position = position;
 	this->size = size;
+	this->pwidgets = new std::vector<BaseWidget*>;
 	initialize();
 }
 
@@ -21,9 +22,15 @@ ImGUI::~ImGUI()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+	delete pwidgets;
 }
 
-void ImGUI::draw(const char* title, std::vector<BaseWidget*>* pwidgets, Enum flag)
+void ImGUI::add_widget(BaseWidget* pwidget)
+{
+	pwidgets->push_back(pwidget);
+}
+
+void ImGUI::draw(const char* title, Enum flag)
 {
 	bool open = true;
 	ImGui_ImplOpenGL3_NewFrame();
@@ -39,6 +46,16 @@ void ImGUI::draw(const char* title, std::vector<BaseWidget*>* pwidgets, Enum fla
 	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+vect::vec2 ImGUI::get_position()
+{
+	return position;
+}
+
+vect::vec2 ImGUI::get_size()
+{
+	return size;
 }
 
 void ImGUI::initialize()
