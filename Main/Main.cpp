@@ -10,6 +10,13 @@
 #include "Widgets.h"
 #include "Im_GUI.h"
 
+InputTextWidget* pinputtextwidget = 0;
+
+void callback()
+{
+	std::cout << "Captured text :: " << pinputtextwidget->get_text() << std::endl;
+}
+
 int main()
 {
 	Window window("3DImporter", 1024, 768);
@@ -35,14 +42,15 @@ int main()
 	vect::vec4 color(1.0f, 0.65f, 0.0f, 1.0f);
 
 	char path[100] = "";
-	TextWidget textwidgettitle("3D Importer");
-	TextWidget textwidgetpath("Path :: ");
-	InputTextWidget inputtextwidget("", "");
+	TextWidget textwidgetpath("Insert GLTF file path : ");
+	InputTextWidget inputtextwidget;
+	pinputtextwidget = &inputtextwidget;
+	ButtonWidget buttonwidget("LOAD", callback);
 
-	ImGUI gui(&window, vect::vec2(774, 668), vect::vec2(250, 100));
-	gui.add_widget(&textwidgettitle);
+	ImGUI gui(&window, vect::vec2(824, 688), vect::vec2(200, 80));
 	gui.add_widget(&textwidgetpath);
 	gui.add_widget(&inputtextwidget);
+	gui.add_widget(&buttonwidget);
 
 	vect::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 	vect::vec3 camera_up(0.0f, 1.0f, 0.0f);;

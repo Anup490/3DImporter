@@ -3,7 +3,7 @@
 
 enum class WidgetType
 {
-	TEXT, SLIDER, CHECKBOX, COLOREDIT4, INPUTTEXT
+	TEXT, SLIDER, CHECKBOX, COLOREDIT4, INPUTTEXT, BUTTON
 };
 
 struct BaseWidget
@@ -80,7 +80,7 @@ struct InputTextWidget : TextWidget
 {
 	char chars[100] = "";
 
-	InputTextWidget(std::string label, std::string init_text) : TextWidget(label)
+	InputTextWidget(std::string label = "", std::string init_text = "") : TextWidget(label)
 	{
 		int length = init_text.length();
 		const char* ptext = init_text.c_str();
@@ -98,5 +98,21 @@ struct InputTextWidget : TextWidget
 	std::string get_text()
 	{
 		return std::string(chars);
+	}
+};
+
+struct ButtonWidget : BaseWidget
+{
+	using callback = void(void);
+	callback* callback_func;
+
+	ButtonWidget(std::string label, callback callback_func) : BaseWidget(label)
+	{
+		this->callback_func = callback_func;
+	}
+
+	virtual WidgetType get_type() override
+	{
+		return WidgetType::BUTTON;
 	}
 };

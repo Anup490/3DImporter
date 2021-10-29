@@ -104,5 +104,14 @@ void ImGUI::set_widget(BaseWidget* pwidget)
 			ImGui::InputText(pinputtextwidget->label.c_str(), pinputtextwidget->chars, IM_ARRAYSIZE(pinputtextwidget->chars));
 			break;
 		}
+		case WidgetType::BUTTON:
+		{
+			ButtonWidget* pbuttonwidget = static_cast<ButtonWidget*>(pwidget);
+			if (ImGui::Button(pbuttonwidget->label.c_str()))
+			{
+				pbuttonwidget->callback_func();
+			}
+			break;
+		}
 	}
 }
