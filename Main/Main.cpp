@@ -7,14 +7,26 @@
 #include "Cubemap.h"
 #include "Enum.h"
 #include "GLTFModel.h"
-#include "Widgets.h"
+#include "ImGUIWidgets.h"
 #include "Im_GUI.h"
 
-InputTextWidget* pinputtextwidget = 0;
+ImGUIInputTextWidget* pinputtextwidget = 0;
+GLTFModel* pModel = 0;
 
 void callback()
 {
-	std::cout << "Captured text :: " << pinputtextwidget->get_text() << std::endl;
+	std::string path = pinputtextwidget->get_text();
+	GLTFModel* pNewModel = new GLTFModel(path.c_str());
+	if (pNewModel->load_failure)
+	{
+		std::cout << "failure loading from :: "<<path<< std::endl;
+		delete pNewModel;
+	}
+	else
+	{
+		delete pModel;
+		pModel = pNewModel;
+	}
 }
 
 int main()
@@ -36,16 +48,16 @@ int main()
 	ShaderProgram skyboxshader("test.vert", "test.frag");
 	ShaderProgram modelshader("tex.vert", "tex.frag");
 
-	GLTFModel model("../Assets/crow/scene.gltf");
+	pModel = new GLTFModel("../Assets/crow/scene.gltf");
 	window.enable_feature(Enum::DEPTH_TEST);
 
 	vect::vec4 color(1.0f, 0.65f, 0.0f, 1.0f);
 
 	char path[100] = "";
-	TextWidget textwidgetpath("Insert GLTF file path : ");
-	InputTextWidget inputtextwidget;
+	ImGUITextWidget textwidgetpath("Insert GLTF file path : ");
+	ImGUIInputTextWidget inputtextwidget;
 	pinputtextwidget = &inputtextwidget;
-	ButtonWidget buttonwidget("LOAD", callback);
+	ImGUIButtonWidget buttonwidget("LOAD", callback);
 
 	ImGUI gui(&window, vect::vec2(824, 688), vect::vec2(200, 80));
 	gui.add_widget(&textwidgetpath);
@@ -69,7 +81,8 @@ int main()
 		camera.update_position();
 		cubemap.draw(skyboxshader);
 		window.enable_depth_mask(true);
-		model.draw(modelshader, camera);
+		if(pModel)
+			pModel->draw(modelshader, camera);
 		gui.draw("Triangle settings", Enum::DISABLE_MOVE_COLLAPSE_TITLE_RESIZE);
 		window.run_swapbuffer_eventpoller();
 	}

@@ -19,6 +19,11 @@ GLTFModel::GLTFModel(const char* file)
 	ploadedtexname = new std::vector<std::string>();
 	ploadedtex = new std::vector<Texture*>();
 	std::string json_data = extract_file(file);
+	if (json_data.empty())
+	{
+		load_failure = true;
+		return;
+	}
 	json JSON = json::parse(json_data);
 	GLTFModel::file = file;
 	pdata = get_data(JSON);
@@ -28,15 +33,11 @@ GLTFModel::GLTFModel(const char* file)
 
 GLTFModel::~GLTFModel()
 {
-	delete pvertices;
-	delete pindices;
-	for (int i=0; i< ptextures->size(); i++)
-	{
-		delete ptextures->at(i);
-	}
-	delete ptextures;
-	delete ploadedtexname;
-	delete ploadedtex;
+	handle_deletion(pvertices);
+	handle_deletion(pindices);
+	handle_vector_deletion(ptextures);
+	handle_deletion(ploadedtexname);
+	handle_deletion(ploadedtex);
 }
 
 void GLTFModel::draw
@@ -357,4 +358,25 @@ std::vector<vect::vec4>* GLTFModel::group_floats_as_vec4(std::vector<float>* pfl
 		pvectors->push_back(vect::vec4(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
 	}
 	return pvectors;
+}
+
+void GLTFModel::handle_deletion(void* p)
+{
+	if (p)
+	{
+		delete p;
+	}
+}
+
+template<typename Type>
+void GLTFModel::handle_vector_deletion(std::vector<Type*>* pvector)
+{
+	if (pvector)
+	{
+		for (int i = 0; i < pvector->size(); i++)
+		{
+			delete pvector->at(i);
+		}
+	}
+	delete pvector;
 }

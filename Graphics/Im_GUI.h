@@ -13,7 +13,6 @@ class ImGUI
 	vect::vec2 size;
 	std::vector<BaseWidget*>* pwidgets;
 	void initialize();
-	void set_widget(BaseWidget* widget);
 public:
 	ImGUI(Window* pwindow, vect::vec2 position, vect::vec2 size);
 	~ImGUI();

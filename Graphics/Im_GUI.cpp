@@ -41,7 +41,7 @@ void ImGUI::draw(const char* title, Enum flag)
 	ImGui::Begin(title, &open, flag.val);
 	for (BaseWidget* pwidget : *pwidgets)
 	{
-		set_widget(pwidget);
+		pwidget->draw();
 	}
 	ImGui::End();
 	ImGui::Render();
@@ -68,50 +68,4 @@ void ImGUI::initialize()
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(pwindow->get_window(), true);
 	ImGui_ImplOpenGL3_Init("#version 330");
-}
-
-void ImGUI::set_widget(BaseWidget* pwidget)
-{
-	switch (pwidget->get_type())
-	{
-		case WidgetType::TEXT:
-		{
-			TextWidget* ptextwidget = static_cast<TextWidget*>(pwidget);
-			ImGui::Text(ptextwidget->label.c_str());
-			break;
-		}
-		case WidgetType::SLIDER:
-		{
-			SliderWidget* psliderwidget = static_cast<SliderWidget*>(pwidget);
-			ImGui::SliderFloat(psliderwidget->label.c_str(), psliderwidget->psize, psliderwidget->min, psliderwidget->max);
-			break;
-		}
-		case WidgetType::CHECKBOX:
-		{
-			CheckboxWidget* pcheckboxwidget = static_cast<CheckboxWidget*>(pwidget);
-			ImGui::Checkbox(pcheckboxwidget->label.c_str(), pcheckboxwidget->pchecked);
-			break;
-		}
-		case WidgetType::COLOREDIT4:
-		{
-			ColorEdit4Widget* pcoloreditwidget = static_cast<ColorEdit4Widget*>(pwidget);
-			ImGui::ColorEdit4(pcoloreditwidget->label.c_str(), pcoloreditwidget->pcol);
-			break;
-		}
-		case WidgetType::INPUTTEXT:
-		{
-			InputTextWidget* pinputtextwidget = static_cast<InputTextWidget*>(pwidget);
-			ImGui::InputText(pinputtextwidget->label.c_str(), pinputtextwidget->chars, IM_ARRAYSIZE(pinputtextwidget->chars));
-			break;
-		}
-		case WidgetType::BUTTON:
-		{
-			ButtonWidget* pbuttonwidget = static_cast<ButtonWidget*>(pwidget);
-			if (ImGui::Button(pbuttonwidget->label.c_str()))
-			{
-				pbuttonwidget->callback_func();
-			}
-			break;
-		}
-	}
 }
