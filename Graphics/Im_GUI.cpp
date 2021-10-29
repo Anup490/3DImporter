@@ -98,5 +98,11 @@ void ImGUI::set_widget(BaseWidget* pwidget)
 			ImGui::ColorEdit4(pcoloreditwidget->label.c_str(), pcoloreditwidget->pcol);
 			break;
 		}
+		case WidgetType::INPUTTEXT:
+		{
+			InputTextWidget* pinputtextwidget = static_cast<InputTextWidget*>(pwidget);
+			ImGui::InputText(pinputtextwidget->label.c_str(), pinputtextwidget->chars, IM_ARRAYSIZE(pinputtextwidget->chars));
+			break;
+		}
 	}
 }

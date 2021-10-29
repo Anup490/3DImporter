@@ -129,14 +129,14 @@
     <ClInclude Include="BaseModel.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Widgets.h">
-      <Filter>Header Files\GUI\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\include\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Im_GUI.h">
       <Filter>Header Files\GUI\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Widgets.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

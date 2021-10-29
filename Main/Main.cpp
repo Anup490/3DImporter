@@ -26,28 +26,23 @@ int main()
 
 	Cubemap cubemap(faces);
 
-	ShaderProgram skyboxshader("../Main/test.vert", "../Main/test.frag");
-	ShaderProgram modelshader("../Main/tex.vert", "../Main/tex.frag");
+	ShaderProgram skyboxshader("test.vert", "test.frag");
+	ShaderProgram modelshader("tex.vert", "tex.frag");
 
 	GLTFModel model("../Assets/crow/scene.gltf");
 	window.enable_feature(Enum::DEPTH_TEST);
 
 	vect::vec4 color(1.0f, 0.65f, 0.0f, 1.0f);
 
-	bool draw_triangle = false;
-	float size = 1.0f;
-	float color_f[4] = { 1.0f, 0.75f, 0.8f, 1.0f };
-
-	TextWidget textwidget("Configure triangle");
-	SliderWidget sliderwidget("Size", &size, 0.5f, 2.0f);
-	CheckboxWidget checkboxwidget("Draw triangle", &draw_triangle);
-	ColorEdit4Widget coloreditwidget("Color", color_f);
+	char path[100] = "";
+	TextWidget textwidgettitle("3D Importer");
+	TextWidget textwidgetpath("Path :: ");
+	InputTextWidget inputtextwidget("", "");
 
 	ImGUI gui(&window, vect::vec2(774, 668), vect::vec2(250, 100));
-	gui.add_widget(&textwidget);
-	gui.add_widget(&sliderwidget);
-	gui.add_widget(&checkboxwidget);
-	gui.add_widget(&coloreditwidget);
+	gui.add_widget(&textwidgettitle);
+	gui.add_widget(&textwidgetpath);
+	gui.add_widget(&inputtextwidget);
 
 	vect::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 	vect::vec3 camera_up(0.0f, 1.0f, 0.0f);;
