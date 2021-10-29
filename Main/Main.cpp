@@ -12,6 +12,7 @@
 
 ImGUIInputTextWidget* pinputtextwidget = 0;
 GLTFModel* pModel = 0;
+Camera* pCamera = 0;
 
 void callback()
 {
@@ -26,6 +27,7 @@ void callback()
 	{
 		delete pModel;
 		pModel = pNewModel;
+		pCamera->reset();
 	}
 }
 
@@ -70,6 +72,7 @@ int main()
 	Camera camera(window, gui, camera_pos, camera_up);
 	camera.set_view_matrix(skyboxshader, false);
 	camera.set_projection_matrix(skyboxshader);
+	pCamera = &camera;
 
 	CameraHandler handler(window);
 	handler.add_camera(&camera);

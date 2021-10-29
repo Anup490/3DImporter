@@ -18,6 +18,7 @@ Camera::Camera(Window& window, ImGUI& imgui, vect::vec3& position, vect::vec3& u
 {
 	Camera::pwindow = &window;
 	Camera::position = position;
+	Camera::original_position = position;
 	Camera::up = up;
 	Camera::normal = to_vect_vec3(glm::normalize(glm::vec3(up.x, up.y, up.z)));
 	Camera::front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
@@ -127,6 +128,14 @@ vect::vec3 Camera::get_position()
 vect::vec3 Camera::get_front()
 {
 	return vect::vec3(front.x, front.y, front.z);
+}
+
+void Camera::reset()
+{
+	position = original_position;
+	yaw = -90.0f;
+	pitch = 0.0f;
+	front = get_orientation();
 }
 
 void Camera::set_imgui_vectors(ImGUI& imgui)

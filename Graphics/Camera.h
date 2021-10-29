@@ -8,7 +8,7 @@ class ImGUI;
 
 class Camera : public BaseCamera
 {
-	vect::vec3 position, up, normal;
+	vect::vec3 position, original_position, up, normal;
 	vect::vec2 imgui_min;
 	vect::vec2 imgui_max;
 	Window* pwindow;
@@ -32,5 +32,6 @@ public:
 	void on_scroll(GLFWwindow* window, double xpos, double ypos) override;
 	vect::vec3 get_position();
 	vect::vec3 get_front();
+	void reset();
 };
 
