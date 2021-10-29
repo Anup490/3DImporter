@@ -206,7 +206,7 @@ void Camera::handle_drag()
 bool Camera::should_drag()
 {
 	vect::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
-	vect::vec2 window_dim = pwindow->get_dimensions().y;
+	vect::vec2 window_dim = pwindow->get_dimensions();
 	if (should_disable_imgui_focus(mouse_pos, window_dim))
 	{
 		focus_imgui = false;
@@ -221,7 +221,7 @@ bool Camera::should_drag()
 bool Camera::should_disable_imgui_focus(vect::vec2& mouse_pos, vect::vec2 window_dim)
 {
 	bool disable = false;
-	if (imgui_max.x >= window_dim.x)
+	if (imgui_max.x == window_dim.x)
 	{
 		disable = (mouse_pos.x < (imgui_min.x - 100.0f)) || (mouse_pos.x > imgui_max.x);
 	}
@@ -229,13 +229,13 @@ bool Camera::should_disable_imgui_focus(vect::vec2& mouse_pos, vect::vec2 window
 	{
 		disable = (mouse_pos.x < imgui_min.x) || (mouse_pos.x > (imgui_max.x + 200.0f));
 	}
-	if (imgui_max.y >= window_dim.y)
+	if (imgui_max.y == window_dim.y)
 	{
-		disable = disable && ((mouse_pos.y < imgui_min.y) || (mouse_pos.y > (imgui_max.y + 100.0f)));		
+		disable = disable || ((mouse_pos.y < imgui_min.y) || (mouse_pos.y > (imgui_max.y + 100.0f)));		
 	}
 	else
 	{
-		disable = disable && ((mouse_pos.y < (imgui_min.y - 100.0f)) || (mouse_pos.y > imgui_max.y));	
+		disable = disable || ((mouse_pos.y < (imgui_min.y - 100.0f)) || (mouse_pos.y > imgui_max.y));
 	}
 	return disable;
 }

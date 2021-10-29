@@ -14,9 +14,11 @@ ImGUIInputTextWidget* pinputtextwidget = 0;
 GLTFModel* pModel = 0;
 Camera* pCamera = 0;
 
+std::string replace_slash(std::string path);
+
 void callback()
 {
-	std::string path = pinputtextwidget->get_text();
+	std::string path = replace_slash(pinputtextwidget->get_text());
 	GLTFModel* pNewModel = new GLTFModel(path.c_str());
 	if (pNewModel->load_failure)
 	{
@@ -61,7 +63,7 @@ int main()
 	pinputtextwidget = &inputtextwidget;
 	ImGUIButtonWidget buttonwidget("LOAD", callback);
 
-	ImGUI gui(&window, vect::vec2(824, 688), vect::vec2(200, 80));
+	ImGUI gui(&window, vect::vec2(424, 688), vect::vec2(600, 80));
 	gui.add_widget(&textwidgetpath);
 	gui.add_widget(&inputtextwidget);
 	gui.add_widget(&buttonwidget);
