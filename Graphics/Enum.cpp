@@ -11,8 +11,8 @@ Enum Enum::DYNAMIC_USAGE = Enum(GL_DYNAMIC_DRAW);
 
 //datatypes
 Enum Enum::FLOAT = Enum(GL_FLOAT);
-Enum Enum::FALSE = Enum(GL_FALSE);
-Enum Enum::TRUE = Enum(GL_TRUE);
+Enum Enum::BOOL_FALSE = Enum(GL_FALSE);
+Enum Enum::BOOL_TRUE = Enum(GL_TRUE);
 
 //texture
 Enum Enum::TEXTURE_WRAP_CLAMP_TO_EDGE = Enum(GL_CLAMP_TO_EDGE);

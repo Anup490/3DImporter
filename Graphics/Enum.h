@@ -8,8 +8,8 @@ struct Enum
 	static Enum STREAM_USAGE;
 	static Enum DYNAMIC_USAGE;
 	static Enum FLOAT;
-	static Enum FALSE;
-	static Enum TRUE;
+	static Enum BOOL_FALSE;
+	static Enum BOOL_TRUE;
 	static Enum TEXTURE_WRAP_CLAMP_TO_EDGE;
 	static Enum TEXTURE_WRAP_REPEAT;
 	static Enum TEXTURE_WRAP_MIRROR;

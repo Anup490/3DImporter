@@ -6,6 +6,7 @@
 #include "Window.h" 
 #include "Enum.h"
 #include "Widgets.h"
+#include "Dialogs.h"
 #include <vector>
 
 ImGUI::ImGUI(Window* pwindow, vect::vec2 position, vect::vec2 size)
@@ -14,6 +15,7 @@ ImGUI::ImGUI(Window* pwindow, vect::vec2 position, vect::vec2 size)
 	this->position = position;
 	this->size = size;
 	this->pwidgets = new std::vector<BaseWidget*>;
+	this->pdialogs = new std::vector<BaseDialog*>;
 	initialize();
 }
 
@@ -23,11 +25,17 @@ ImGUI::~ImGUI()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	delete pwidgets;
+	delete pdialogs;
 }
 
 void ImGUI::add_widget(BaseWidget* pwidget)
 {
 	pwidgets->push_back(pwidget);
+}
+
+void ImGUI::add_dialog(BaseDialog* pdialog)
+{
+	pdialogs->push_back(pdialog);
 }
 
 void ImGUI::draw(const char* title, Enum flag)
@@ -42,6 +50,10 @@ void ImGUI::draw(const char* title, Enum flag)
 	for (BaseWidget* pwidget : *pwidgets)
 	{
 		pwidget->draw();
+	}
+	for (BaseDialog* pdialog : *pdialogs)
+	{
+		pdialog->draw();
 	}
 	ImGui::End();
 	ImGui::Render();

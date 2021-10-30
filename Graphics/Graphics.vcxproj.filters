@@ -141,6 +141,12 @@
     <ClInclude Include="ImGUIWidgets.h">
       <Filter>Header Files\GUI\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="Dialogs.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUIDialogs.h">
+      <Filter>Header Files\GUI\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -215,8 +221,11 @@
     <ClCompile Include="Im_GUI.cpp">
       <Filter>Source Files\GUI\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="ImGUIDialogs.cpp">
+      <Filter>Source Files\GUI\imgui</Filter>
+    </ClCompile>
     <ClCompile Include="ImGUIWidgets.cpp">
-      <Filter>Source Files\GUI</Filter>
+      <Filter>Source Files\GUI\imgui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ class Camera : public BaseCamera
 	Window* pwindow;
 	float last_frame = 0.0f, yaw = -90.0f, pitch = 0.0f, lastX = 0.0f, lastY = 0.0f, fov = 45.0f, aspect_ratio = 1.0f;
 	vect::vec3 front = vect::vec3(0.0f, 0.0f, 0.0f);
-	bool first_mouse = true, focus_imgui = false;
+	bool first_mouse = true, focus_imgui = false, enable_cam = true;
 	void set_imgui_vectors(ImGUI& imgui);
 	vect::vec3 get_orientation();
 	float get_delta_time();
@@ -30,6 +30,7 @@ public:
 	void update_matrices(ShaderProgram& program);
 	void on_mouse_move(GLFWwindow* window, double xpos, double ypos) override;
 	void on_scroll(GLFWwindow* window, double xpos, double ypos) override;
+	void enable(bool enable);
 	vect::vec3 get_position();
 	vect::vec3 get_front();
 	void reset();

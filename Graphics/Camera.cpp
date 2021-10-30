@@ -84,26 +84,29 @@ void Camera::update_matrices(ShaderProgram& program)
 void Camera::on_mouse_move(GLFWwindow* window, double xpos, double ypos)
 {
 #ifdef MOUSE_MOVE
-	if (first_mouse)
+	if (enable_cam)
 	{
+		if (first_mouse)
+		{
+			lastX = xpos;
+			lastY = ypos;
+			first_mouse = false;
+		}
+		float xoffset = xpos - lastX;
+		float yoffset = lastY - ypos;
 		lastX = xpos;
 		lastY = ypos;
-		first_mouse = false;
+		float sensitivity = 0.1;
+		xoffset *= sensitivity;
+		yoffset *= sensitivity;
+		yaw += xoffset;
+		pitch += yoffset;
+		if (pitch > 89.0f)
+			pitch = 89.0f;
+		if (pitch < -89.0f)
+			pitch = -89.0f;
+		front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
 	}
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos;
-	lastX = xpos;
-	lastY = ypos;
-	float sensitivity = 0.1;
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-	yaw += xoffset;
-	pitch += yoffset;
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
-	front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
 #endif
 }
 
@@ -118,6 +121,11 @@ void Camera::on_scroll(GLFWwindow* window, double xpos, double ypos)
 	{
 		fov = 45.0f;
 	}
+}
+
+void Camera::enable(bool enable)
+{
+	enable_cam = enable;
 }
 
 vect::vec3 Camera::get_position()
@@ -166,39 +174,42 @@ float Camera::get_delta_time()
 void Camera::handle_drag()
 {
 #ifdef MOUSE_DRAG
-	if (pwindow->has_pressed_mouse_btn(Enum::MOUSE_BTN_LEFT))
+	if (enable_cam)
 	{
-		if (should_drag())
+		if (pwindow->has_pressed_mouse_btn(Enum::MOUSE_BTN_LEFT))
 		{
-			pwindow->show_mouse_cursor(false);
-			vect::vec2 window_dimension = pwindow->get_dimensions();
-			float width = window_dimension.x;
-			float height = window_dimension.y;
-			if (first_mouse)
+			if (should_drag())
 			{
+				pwindow->show_mouse_cursor(false);
+				vect::vec2 window_dimension = pwindow->get_dimensions();
+				float width = window_dimension.x;
+				float height = window_dimension.y;
+				if (first_mouse)
+				{
+					pwindow->set_mouse_cursor_pos((width / 2), (height / 2));
+					first_mouse = false;
+				}
+				vect::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
+				float sensitivity = 100.0f;
+				float pitch = sensitivity * (float)(mouse_pos.y - (height / 2)) / height;
+				float yaw = sensitivity * (float)(mouse_pos.x - (width / 2)) / width;
+				glm::vec3 glmfront = to_glm_vec3(front);
+				glm::vec3 glmup = to_glm_vec3(up);
+				glm::vec3 new_glmfront = glm::rotate(glmfront, glm::radians(-pitch), glm::normalize(glm::cross(glmfront, glmup)));
+				if (abs(glm::angle(new_glmfront, glmup) - glm::radians(90.0f)) <= glm::radians(85.0f))
+				{
+					glmfront = new_glmfront;
+				}
+				glmfront = glm::rotate(glmfront, glm::radians(-yaw), glmup);
 				pwindow->set_mouse_cursor_pos((width / 2), (height / 2));
-				first_mouse = false;
+				front = to_vect_vec3(glm::normalize(glmfront));
 			}
-			vect::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
-			float sensitivity = 100.0f;
-			float pitch = sensitivity * (float)(mouse_pos.y - (height / 2)) / height;
-			float yaw = sensitivity * (float)(mouse_pos.x - (width / 2)) / width;
-			glm::vec3 glmfront = to_glm_vec3(front);
-			glm::vec3 glmup = to_glm_vec3(up);
-			glm::vec3 new_glmfront = glm::rotate(glmfront, glm::radians(-pitch), glm::normalize(glm::cross(glmfront, glmup)));
-			if (abs(glm::angle(new_glmfront, glmup) - glm::radians(90.0f)) <= glm::radians(85.0f))
-			{
-				glmfront = new_glmfront;
-			}
-			glmfront = glm::rotate(glmfront, glm::radians(-yaw), glmup);
-			pwindow->set_mouse_cursor_pos((width / 2), (height / 2));
-			front = to_vect_vec3(glm::normalize(glmfront));
 		}
-	}
-	else if (pwindow->has_released_mouse_btn(Enum::MOUSE_BTN_LEFT))
-	{
-		pwindow->show_mouse_cursor(true);
-		first_mouse = true;
+		else if (pwindow->has_released_mouse_btn(Enum::MOUSE_BTN_LEFT))
+		{
+			pwindow->show_mouse_cursor(true);
+			first_mouse = true;
+		}
 	}
 #endif
 }
