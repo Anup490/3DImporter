@@ -34,12 +34,12 @@ void ImGUIFileBrowserDialog::draw()
 			file_path = pfilebrowser->GetSelected().string();
 		}
 	}
-	if (has_selected)
+	if (has_selected || !(pfilebrowser->IsOpened()))
 	{
 		frame_count++;
 		if (frame_count == 3)
 		{
-			dismiss_callback(file_path);
+			dismiss_callback(file_path, has_selected);
 			has_selected = false;
 			frame_count = 0;
 		}

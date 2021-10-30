@@ -24,9 +24,12 @@ void button_callback()
 	pcamera->enable(false);
 }
 
-void file_browser_dismiss_callback(std::string path)
+void file_browser_dismiss_callback(std::string path, bool has_selected)
 {
-	load_model(path);
+	if (has_selected)
+	{
+		load_model(path);
+	}
 	pcamera->enable(true);
 }
 

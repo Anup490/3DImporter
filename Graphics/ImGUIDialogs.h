@@ -9,7 +9,7 @@ namespace ImGui
 
 struct ImGUIFileBrowserDialog : BaseDialog
 {	
-	using function = void(std::string);
+	using function = void(std::string, bool);
 	bool has_selected = false;
 	ImGUIFileBrowserDialog(std::string title, function* dismiss_callback);
 	~ImGUIFileBrowserDialog();
