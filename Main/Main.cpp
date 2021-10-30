@@ -18,10 +18,16 @@ Camera* pcamera = 0;
 void load_model(std::string path);
 std::string replace_slash(std::string path);
 
-void callback()
+void button_callback()
 {
 	pfiledialog->open();
 	pcamera->enable(false);
+}
+
+void file_browser_dismiss_callback(std::string path)
+{
+	load_model(path);
+	pcamera->enable(true);
 }
 
 int main()
@@ -50,15 +56,18 @@ int main()
 
 	char path[100] = "";
 	ImGUITextWidget textwidgetpath("Browse GLTF file : ");
-	ImGUIButtonWidget buttonwidget("BROWSE", callback);
+	ImGUIButtonWidget buttonwidget("BROWSE", button_callback);
 
-	ImGUIFileBrowserDialog filedialog("File Browser");
+	ImGUIFileBrowserDialog filedialog("File Browser", file_browser_dismiss_callback);
 	pfiledialog = &filedialog;
+
+	ImGUIProgressDialog progressdialog("Loading...", window.get_dimensions(), &filedialog.has_selected);
 
 	ImGUI gui(&window, vect::vec2(424, 688), vect::vec2(600, 80));
 	gui.add_widget(&textwidgetpath);
 	gui.add_widget(&buttonwidget);
 	gui.add_dialog(&filedialog);
+	gui.add_dialog(&progressdialog);
 
 	vect::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 	vect::vec3 camera_up(0.0f, 1.0f, 0.0f);;
@@ -70,10 +79,9 @@ int main()
 
 	CameraHandler handler(window);
 	handler.add_camera(&camera);
-
+	int count = 0;
 	while (window.should_stay())
 	{
-		window.show_mouse_cursor(true);
 		window.clear_color_buffer(color, Enum::COLOR_DEPTH_BUFFER_BIT);
 		window.enable_depth_mask(false);
 		camera.update_position();
@@ -81,12 +89,7 @@ int main()
 		window.enable_depth_mask(true);
 		if(pmodel)
 			pmodel->draw(modelshader, camera);
-		gui.draw("Triangle settings", Enum::DISABLE_MOVE_COLLAPSE_TITLE_RESIZE);
-		if (filedialog.has_selected)
-		{
-			load_model(filedialog.get_path());
-			pcamera->enable(true);
-		}
+		gui.draw("3D Importer", Enum::DISABLE_MOVE_COLLAPSE_TITLE_RESIZE);
 		window.run_swapbuffer_eventpoller();
 	}
 	delete pmodel;

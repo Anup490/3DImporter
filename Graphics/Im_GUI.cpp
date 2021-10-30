@@ -53,11 +53,21 @@ void ImGUI::draw(const char* title, Enum flag)
 	}
 	for (BaseDialog* pdialog : *pdialogs)
 	{
-		pdialog->draw();
+		if (pdialog->draw_together)
+		{
+			pdialog->draw();
+		}	
 	}
 	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	for (BaseDialog* pdialog : *pdialogs)
+	{
+		if (!pdialog->draw_together)
+		{
+			pdialog->draw();
+		}
+	}
 }
 
 vect::vec2 ImGUI::get_position()

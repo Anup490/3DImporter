@@ -217,7 +217,8 @@
     <ClCompile Include="Enum.cpp" />
     <ClCompile Include="glad.cpp" />
     <ClCompile Include="GLTFModel.cpp" />
-    <ClCompile Include="ImGUIDialogs.cpp" />
+    <ClCompile Include="ImGUIFileBrowserDialog.cpp" />
+    <ClCompile Include="ImGUIProgressDialog.cpp" />
     <ClCompile Include="ImGUIWidgets.cpp" />
     <ClCompile Include="Im_GUI.cpp" />
     <ClCompile Include="Libraries\include\imgui\imgui.cpp" />

@@ -3,11 +3,12 @@
 #include "imgui/imgui.h"
 #include "imgui/imfilebrowser.h"
 
-ImGUIFileBrowserDialog::ImGUIFileBrowserDialog(std::string title) : BaseDialog(title)
+ImGUIFileBrowserDialog::ImGUIFileBrowserDialog(std::string title, function* dismiss_callback) : BaseDialog(title, true)
 {
 	this->pfilebrowser = new ImGui::FileBrowser;
 	this->pfilebrowser->SetTitle("File Browser");
 	this->pfilebrowser->SetTypeFilters({ ".gltf" });
+	this->dismiss_callback = dismiss_callback;
 }
 
 ImGUIFileBrowserDialog::~ImGUIFileBrowserDialog()
@@ -21,8 +22,6 @@ void ImGUIFileBrowserDialog::open()
 	is_open = true;
 }
 
-#include <iostream>
-
 void ImGUIFileBrowserDialog::draw()
 {
 	if (is_open)
@@ -33,13 +32,16 @@ void ImGUIFileBrowserDialog::draw()
 			is_open = false;
 			has_selected = true;
 			file_path = pfilebrowser->GetSelected().string();
-			pfilebrowser->ClearSelected();
 		}
 	}
-}
-
-std::string ImGUIFileBrowserDialog::get_path()
-{
-	has_selected = false;
-	return file_path;
+	if (has_selected)
+	{
+		frame_count++;
+		if (frame_count == 3)
+		{
+			dismiss_callback(file_path);
+			has_selected = false;
+			frame_count = 0;
+		}
+	}
 }

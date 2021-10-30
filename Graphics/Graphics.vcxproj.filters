@@ -221,10 +221,13 @@
     <ClCompile Include="Im_GUI.cpp">
       <Filter>Source Files\GUI\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="ImGUIDialogs.cpp">
+    <ClCompile Include="ImGUIWidgets.cpp">
       <Filter>Source Files\GUI\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="ImGUIWidgets.cpp">
+    <ClCompile Include="ImGUIFileBrowserDialog.cpp">
+      <Filter>Source Files\GUI\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUIProgressDialog.cpp">
       <Filter>Source Files\GUI\imgui</Filter>
     </ClCompile>
   </ItemGroup>
