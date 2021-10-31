@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Projects\C++\3DImporter\Graphics\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\C++\3DImporter\Graphics\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Projects\C++\3DImporter\Graphics\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\C++\3DImporter\Graphics\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Projects\C++\3DImporter\Graphics\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\C++\3DImporter\Graphics\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Projects\C++\3DImporter\Graphics\Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\C++\3DImporter\Graphics\Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,7 +108,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Projects\C++\3DImporter\Graphics\Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -133,7 +133,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Projects\C++\3DImporter\Graphics\Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -154,7 +154,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Projects\C++\3DImporter\Graphics\Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -179,7 +179,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Projects\C++\3DImporter\Graphics\Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
