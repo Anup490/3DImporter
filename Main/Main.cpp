@@ -86,10 +86,8 @@ int main()
 	while (window.should_stay())
 	{
 		window.clear_color_buffer(color, Enum::COLOR_DEPTH_BUFFER_BIT);
-		window.enable_depth_mask(false);
 		camera.update_position();
-		cubemap.draw(skyboxshader);
-		window.enable_depth_mask(true);
+		cubemap.draw(skyboxshader, window);
 		if(pmodel)
 			pmodel->draw(modelshader, camera);
 		gui.draw("3D Importer", Enum::DISABLE_MOVE_COLLAPSE_TITLE_RESIZE);

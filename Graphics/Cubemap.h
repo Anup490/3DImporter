@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseHeader.h"
 
+class Window;
 class Cubemap
 {
 	GLuint id;
@@ -12,5 +13,5 @@ class Cubemap
 public:
 	Cubemap(std::vector<std::string>& paths);
 	~Cubemap();
-	void draw(ShaderProgram& shader);
+	void draw(ShaderProgram& shader, Window& window);
 };

@@ -9,6 +9,7 @@
 #include "VertexBufferObject.h"
 #include "VertexArrayObject.h"
 #include "ShaderProgram.h"
+#include "Window.h"
 
 Cubemap::Cubemap(std::vector<std::string>& paths)
 {
@@ -35,8 +36,9 @@ Cubemap::~Cubemap()
 	delete pvertices;
 }
 
-void Cubemap::draw(ShaderProgram& shader)
+void Cubemap::draw(ShaderProgram& shader, Window& window)
 {
+	window.enable_depth_mask(false);
 	pVAO->bind();
 	shader.activate();
 	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
@@ -44,6 +46,7 @@ void Cubemap::draw(ShaderProgram& shader)
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	pVAO->unbind();
 	shader.deactivate();
+	window.enable_depth_mask(true);
 }
 
 void Cubemap::load_cubemaps(std::vector<std::string>& paths)
