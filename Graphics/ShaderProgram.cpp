@@ -51,13 +51,13 @@ void ShaderProgram::set_int_uniform(const char* name, int value)
 	glUniform1i(glGetUniformLocation(id, name), value);
 }
 
-void ShaderProgram::set_mat4_uniform(const char* name, mat::mat4 value)
+void ShaderProgram::set_mat4_uniform(const char* name, graphics::mat4 value)
 {
 	activate();
 	glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, glm::value_ptr(to_glm_mat4(value)));
 }
 
-void ShaderProgram::set_vec3_uniform(const char* name, vect::vec3 value)
+void ShaderProgram::set_vec3_uniform(const char* name, graphics::vec3 value)
 {
 	activate();
 	glUniform3fv(glGetUniformLocation(id, name), 1, glm::value_ptr(to_glm_vec3(value)));

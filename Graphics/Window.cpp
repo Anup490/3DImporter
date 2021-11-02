@@ -8,7 +8,7 @@
 
 Window::Window(const char* title, int width, int height)
 {
-	dimensions = vect::vec2(width, height);
+	dimensions = graphics::vec2(width, height);
 	initialize_glfw(title, width, height);
 	initialize_glad(width, height);
 }
@@ -78,7 +78,7 @@ void Window::initialize_glad(int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void Window::clear_color_buffer(vect::vec4& color, Enum bits)
+void Window::clear_color_buffer(graphics::vec4& color, Enum bits)
 {
 	glClearColor(color.x,color.y,color.z,color.w);
 	glClear(bits.val);
@@ -94,17 +94,17 @@ void Window::enable_feature(Enum cap)
 	glEnable(cap.val);
 }
 
-vect::vec2 Window::get_dimensions() const
+graphics::vec2 Window::get_dimensions() const
 {
 	return dimensions;
 }
 
-vect::vec2 Window::get_mouse_cursor_pos() const
+graphics::vec2 Window::get_mouse_cursor_pos() const
 {
 	double mouseX;
 	double mouseY;
 	glfwGetCursorPos(pwindow, &mouseX, &mouseY);
-	return vect::vec2(mouseX, mouseY);
+	return graphics::vec2(mouseX, mouseY);
 }
 
 void Window::set_mouse_cursor_pos(float x, float y)

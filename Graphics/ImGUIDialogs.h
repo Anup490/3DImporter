@@ -25,10 +25,10 @@ private:
 
 struct ImGUIProgressDialog : BaseDialog
 {
-	ImGUIProgressDialog(std::string title, vect::vec2 window_dim, bool* pshow);
+	ImGUIProgressDialog(std::string title, graphics::vec2 window_dim, bool* pshow);
 	void draw() override;
 private:
-	vect::vec2 position;
+	graphics::vec2 position;
 	bool* pshow;
 	const float size_x = 86.0f;
 	const float size_y = 30.0f;

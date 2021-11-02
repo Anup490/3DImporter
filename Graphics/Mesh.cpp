@@ -57,10 +57,10 @@ void Mesh::draw
 (
 	ShaderProgram& shader,
 	Camera& camera,
-	mat::mat4 matrix,
-	vect::vec3 translation,
-	vect::vec4 rotation,
-	vect::vec3 scale
+	graphics::mat4 matrix,
+	graphics::vec3 translation,
+	graphics::vec4 rotation,
+	graphics::vec3 scale
 )
 {
 	shader.activate();

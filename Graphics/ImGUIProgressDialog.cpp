@@ -5,9 +5,9 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-ImGUIProgressDialog::ImGUIProgressDialog(std::string title, vect::vec2 window_dim, bool* pshow) : BaseDialog(title, false)
+ImGUIProgressDialog::ImGUIProgressDialog(std::string title, graphics::vec2 window_dim, bool* pshow) : BaseDialog(title, false)
 {
-	this->position = vect::vec2((window_dim.x/2) - (size_x / 2), (window_dim.y/2) - (size_y / 2));
+	this->position = graphics::vec2((window_dim.x/2) - (size_x / 2), (window_dim.y/2) - (size_y / 2));
 	this->pshow = pshow;
 }
 

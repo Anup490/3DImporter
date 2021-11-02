@@ -10,17 +10,17 @@ class Window;
 class ImGUI
 {
 	Window* pwindow;
-	vect::vec2 position;
-	vect::vec2 size;
+	graphics::vec2 position;
+	graphics::vec2 size;
 	std::vector<BaseWidget*>* pwidgets;
 	std::vector<BaseDialog*>* pdialogs;
 	void initialize();
 public:
-	ImGUI(Window* pwindow, vect::vec2 position, vect::vec2 size);
+	ImGUI(Window* pwindow, graphics::vec2 position, graphics::vec2 size);
 	~ImGUI();
 	void add_widget(BaseWidget* pwidget);
 	void add_dialog(BaseDialog* pdialog);
 	void draw(const char* title, Enum flag);
-	vect::vec2 get_position();
-	vect::vec2 get_size();
+	graphics::vec2 get_position();
+	graphics::vec2 get_size();
 };
