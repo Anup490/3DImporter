@@ -1,6 +1,6 @@
 #pragma once
 
-namespace mat
+namespace graphics
 {
 	struct mat4
 	{

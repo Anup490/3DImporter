@@ -14,7 +14,7 @@
 
 #include <iostream>
 
-Camera::Camera(Window& window, ImGUI& imgui, vect::vec3& position, vect::vec3& up)
+Camera::Camera(Window& window, ImGUI& imgui, graphics::vec3& position, graphics::vec3& up)
 {
 	Camera::pwindow = &window;
 	Camera::position = position;
@@ -25,7 +25,7 @@ Camera::Camera(Window& window, ImGUI& imgui, vect::vec3& position, vect::vec3& u
 	set_imgui_vectors(imgui);
 }
 
-void Camera::set_model_matrix(ShaderProgram& program, vect::vec3& item_pos, vect::vec3 rotate_axis, float rotate_angle, vect::vec3 scalar)
+void Camera::set_model_matrix(ShaderProgram& program, graphics::vec3& item_pos, graphics::vec3 rotate_axis, float rotate_angle, graphics::vec3 scalar)
 {
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::scale(model, glm::vec3(scalar.x, scalar.y, scalar.z));
@@ -128,14 +128,14 @@ void Camera::enable(bool enable)
 	enable_cam = enable;
 }
 
-vect::vec3 Camera::get_position()
+graphics::vec3 Camera::get_position()
 {
-	return vect::vec3(position.x, position.y, position.z);
+	return graphics::vec3(position.x, position.y, position.z);
 }
 
-vect::vec3 Camera::get_front()
+graphics::vec3 Camera::get_front()
 {
-	return vect::vec3(front.x, front.y, front.z);
+	return graphics::vec3(front.x, front.y, front.z);
 }
 
 void Camera::reset()
@@ -148,15 +148,15 @@ void Camera::reset()
 
 void Camera::set_imgui_vectors(ImGUI& imgui)
 {
-	vect::vec2 position = imgui.get_position();
-	vect::vec2 size = imgui.get_size();
-	imgui_min = vect::vec2(position.x, position.y);
-	imgui_max = vect::vec2(position.x + size.x, position.y + size.y);
+	graphics::vec2 position = imgui.get_position();
+	graphics::vec2 size = imgui.get_size();
+	imgui_min = graphics::vec2(position.x, position.y);
+	imgui_max = graphics::vec2(position.x + size.x, position.y + size.y);
 }
 
-vect::vec3 Camera::get_orientation()
+graphics::vec3 Camera::get_orientation()
 {
-	vect::vec3 orientation(1.0f);
+	graphics::vec3 orientation(1.0f);
 	orientation.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	orientation.y = sin(glm::radians(pitch));
 	orientation.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -181,7 +181,7 @@ void Camera::handle_drag()
 			if (should_drag())
 			{
 				pwindow->show_mouse_cursor(false);
-				vect::vec2 window_dimension = pwindow->get_dimensions();
+				graphics::vec2 window_dimension = pwindow->get_dimensions();
 				float width = window_dimension.x;
 				float height = window_dimension.y;
 				if (first_mouse)
@@ -189,7 +189,7 @@ void Camera::handle_drag()
 					pwindow->set_mouse_cursor_pos((width / 2), (height / 2));
 					first_mouse = false;
 				}
-				vect::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
+				graphics::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
 				float sensitivity = 100.0f;
 				float pitch = sensitivity * (float)(mouse_pos.y - (height / 2)) / height;
 				float yaw = sensitivity * (float)(mouse_pos.x - (width / 2)) / width;
@@ -216,8 +216,8 @@ void Camera::handle_drag()
 
 bool Camera::should_drag()
 {
-	vect::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
-	vect::vec2 window_dim = pwindow->get_dimensions();
+	graphics::vec2 mouse_pos = pwindow->get_mouse_cursor_pos();
+	graphics::vec2 window_dim = pwindow->get_dimensions();
 	if (should_disable_imgui_focus(mouse_pos, window_dim))
 	{
 		focus_imgui = false;
@@ -229,7 +229,7 @@ bool Camera::should_drag()
 	return !focus_imgui;
 }
 
-bool Camera::should_disable_imgui_focus(vect::vec2& mouse_pos, vect::vec2 window_dim)
+bool Camera::should_disable_imgui_focus(graphics::vec2& mouse_pos, graphics::vec2 window_dim)
 {
 	bool disable = false;
 	if (imgui_max.x == window_dim.x)

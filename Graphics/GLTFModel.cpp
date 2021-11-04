@@ -44,9 +44,9 @@ void GLTFModel::draw
 (
 	ShaderProgram& shader,
 	Camera& camera,
-	vect::vec3 translation,
-	vect::vec4 rotation,
-	vect::vec3 scale
+	graphics::vec3 translation,
+	graphics::vec4 rotation,
+	graphics::vec3 scale
 )
 {
 	for (unsigned int i = 0; i < meshes.size(); i++)
@@ -84,11 +84,11 @@ void GLTFModel::load_mesh(json& JSON, unsigned int indMesh)
 	unsigned int ind_acc_ind = JSON["meshes"][indMesh]["primitives"][0]["indices"];
 
 	std::vector<float>* pposvec = get_floats(JSON["accessors"][pos_acc_ind], JSON);
-	std::vector<vect::vec3>* ppositions = group_floats_as_vec3(pposvec);
+	std::vector<graphics::vec3>* ppositions = group_floats_as_vec3(pposvec);
 	std::vector<float>* pnormalvec = get_floats(JSON["accessors"][normal_acc_ind], JSON);
-	std::vector<vect::vec3>* pnormals = group_floats_as_vec3(pnormalvec);
+	std::vector<graphics::vec3>* pnormals = group_floats_as_vec3(pnormalvec);
 	std::vector<float>* ptexvec = get_floats(JSON["accessors"][tex_acc_ind], JSON);
-	std::vector<vect::vec2>* ptexUVs = group_floats_as_vec2(ptexvec);
+	std::vector<graphics::vec2>* ptexUVs = group_floats_as_vec2(ptexvec);
 
 	pvertices = assemble_vertices(ppositions, pnormals, ptexUVs);
 	pindices = get_indices(JSON["accessors"][ind_acc_ind], JSON);
@@ -104,7 +104,7 @@ void GLTFModel::load_mesh(json& JSON, unsigned int indMesh)
 	delete ptexUVs;
 }
 
-void GLTFModel::traverse_node(json& JSON, unsigned int nextNode, mat::mat4 matrix)
+void GLTFModel::traverse_node(json& JSON, unsigned int nextNode, graphics::mat4 matrix)
 {
 	json node = JSON["nodes"][nextNode];
 
@@ -308,9 +308,9 @@ std::vector<Texture*>* GLTFModel::get_textures(json& JSON)
 
 std::vector<Vertex>* GLTFModel::assemble_vertices
 (
-	std::vector<vect::vec3>* ppositions,
-	std::vector<vect::vec3>* pnormals,
-	std::vector<vect::vec2>* ptextUVs
+	std::vector<graphics::vec3>* ppositions,
+	std::vector<graphics::vec3>* pnormals,
+	std::vector<graphics::vec2>* ptextUVs
 )
 {
 	std::vector<Vertex>* pvertices = new std::vector<Vertex>();;
@@ -330,32 +330,32 @@ std::vector<Vertex>* GLTFModel::assemble_vertices
 	return pvertices;
 }
 
-std::vector<vect::vec2>* GLTFModel::group_floats_as_vec2(std::vector<float>* pfloatvec)
+std::vector<graphics::vec2>* GLTFModel::group_floats_as_vec2(std::vector<float>* pfloatvec)
 {
-	std::vector<vect::vec2>* pvectors = new std::vector<vect::vec2>();
+	std::vector<graphics::vec2>* pvectors = new std::vector<graphics::vec2>();
 	for (int i = 0; i < pfloatvec->size(); i)
 	{
-		pvectors->push_back(vect::vec2(pfloatvec->at(i++), pfloatvec->at(i++)));
+		pvectors->push_back(graphics::vec2(pfloatvec->at(i++), pfloatvec->at(i++)));
 	}
 	return pvectors;
 }
 
-std::vector<vect::vec3>* GLTFModel::group_floats_as_vec3(std::vector<float>* pfloatvec)
+std::vector<graphics::vec3>* GLTFModel::group_floats_as_vec3(std::vector<float>* pfloatvec)
 {
-	std::vector<vect::vec3>* pvectors = new std::vector<vect::vec3>();
+	std::vector<graphics::vec3>* pvectors = new std::vector<graphics::vec3>();
 	for (int i = 0; i < pfloatvec->size(); i)
 	{
-		pvectors->push_back(vect::vec3(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
+		pvectors->push_back(graphics::vec3(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
 	}
 	return pvectors;
 }
 
-std::vector<vect::vec4>* GLTFModel::group_floats_as_vec4(std::vector<float>* pfloatvec)
+std::vector<graphics::vec4>* GLTFModel::group_floats_as_vec4(std::vector<float>* pfloatvec)
 {
-	std::vector<vect::vec4>* pvectors = new std::vector<vect::vec4>();
+	std::vector<graphics::vec4>* pvectors = new std::vector<graphics::vec4>();
 	for (int i = 0; i < pfloatvec->size(); i)
 	{
-		pvectors->push_back(vect::vec4(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
+		pvectors->push_back(graphics::vec4(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
 	}
 	return pvectors;
 }

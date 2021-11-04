@@ -55,7 +55,7 @@ int main()
 	pmodel = new GLTFModel("../Assets/crow/scene.gltf");
 	window.enable_feature(Enum::DEPTH_TEST);
 
-	vect::vec4 color(1.0f, 0.65f, 0.0f, 1.0f);
+	graphics::vec4 color(1.0f, 0.65f, 0.0f, 1.0f);
 
 	char path[100] = "";
 	ImGUITextWidget textwidgetpath("Browse GLTF file : ");
@@ -66,14 +66,14 @@ int main()
 
 	ImGUIProgressDialog progressdialog("Loading...", window.get_dimensions(), &filedialog.has_selected);
 
-	ImGUI gui(&window, vect::vec2(424, 688), vect::vec2(600, 80));
+	ImGUI gui(&window, graphics::vec2(424, 688), graphics::vec2(600, 80));
 	gui.add_widget(&textwidgetpath);
 	gui.add_widget(&buttonwidget);
 	gui.add_dialog(&filedialog);
 	gui.add_dialog(&progressdialog);
 
-	vect::vec3 camera_pos(0.0f, 0.0f, 3.0f);
-	vect::vec3 camera_up(0.0f, 1.0f, 0.0f);;
+	graphics::vec3 camera_pos(0.0f, 0.0f, 3.0f);
+	graphics::vec3 camera_up(0.0f, 1.0f, 0.0f);;
 
 	Camera camera(window, gui, camera_pos, camera_up);
 	camera.set_view_matrix(skyboxshader, false);

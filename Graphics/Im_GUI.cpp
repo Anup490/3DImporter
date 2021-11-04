@@ -9,7 +9,7 @@
 #include "Dialogs.h"
 #include <vector>
 
-ImGUI::ImGUI(Window* pwindow, vect::vec2 position, vect::vec2 size)
+ImGUI::ImGUI(Window* pwindow, graphics::vec2 position, graphics::vec2 size)
 {
 	this->pwindow = pwindow;
 	this->position = position;
@@ -70,12 +70,12 @@ void ImGUI::draw(const char* title, Enum flag)
 	}
 }
 
-vect::vec2 ImGUI::get_position()
+graphics::vec2 ImGUI::get_position()
 {
 	return position;
 }
 
-vect::vec2 ImGUI::get_size()
+graphics::vec2 ImGUI::get_size()
 {
 	return size;
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace vect
+namespace graphics
 {
 	struct vec2
 	{
