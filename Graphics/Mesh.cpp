@@ -11,6 +11,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include "Utils.h"
 
 Mesh::Mesh
 (
@@ -66,6 +67,8 @@ void Mesh::draw
 	shader.activate();
 	pVAO->bind();
 	camera.update_matrices(shader);
+	camera.set_model_matrix(shader, matrix);
+
 	int final_pos = ptextures->size() - 1;
 	for (int i = final_pos; i >= 0; i--)
 	{

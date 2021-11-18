@@ -160,17 +160,17 @@ void GLTFModel::traverse_node(json& JSON, unsigned int nextNode, graphics::mat4 
 
 	if (node.find("mesh") != node.end())
 	{
-		translations.push_back(to_vect_vec3(translation));
+		translations.push_back(to_graphics_vec3(translation));
 		rotations.push_back(to_vect_vec4(rotation));
-		scales.push_back(to_vect_vec3(scale));
-		matrices.push_back(to_mat_mat4(matNextNode));
+		scales.push_back(to_graphics_vec3(scale));
+		matrices.push_back(to_graphics_mat4(matNextNode));
 		load_mesh(JSON, node["mesh"]);
 	}
 
 	if (node.find("children") != node.end())
 	{
 		for (unsigned int i = 0; i < node["children"].size(); i++)
-			traverse_node(JSON, node["children"][i], to_mat_mat4(matNextNode));
+			traverse_node(JSON, node["children"][i], to_graphics_mat4(matNextNode));
 	}
 }
 

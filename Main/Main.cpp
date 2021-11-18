@@ -52,7 +52,7 @@ int main()
 	ShaderProgram skyboxshader("test.vert", "test.frag");
 	ShaderProgram modelshader("tex.vert", "tex.frag");
 
-	pmodel = new GLTFModel("../Assets/crow/scene.gltf");
+	pmodel = new GLTFModel("../Assets/bunny/scene.gltf");
 	window.enable_feature(Enum::DEPTH_TEST);
 
 	graphics::vec4 color(1.0f, 0.65f, 0.0f, 1.0f);
