@@ -20,8 +20,8 @@ Camera::Camera(Window& window, ImGUI& imgui, graphics::vec3& position, graphics:
 	Camera::position = position;
 	Camera::original_position = position;
 	Camera::up = up;
-	Camera::normal = to_vect_vec3(glm::normalize(glm::vec3(up.x, up.y, up.z)));
-	Camera::front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
+	Camera::normal = to_graphics_vec3(glm::normalize(glm::vec3(up.x, up.y, up.z)));
+	Camera::front = to_graphics_vec3(glm::normalize(to_glm_vec3(get_orientation())));
 	set_imgui_vectors(imgui);
 }
 
@@ -31,7 +31,12 @@ void Camera::set_model_matrix(ShaderProgram& program, graphics::vec3& item_pos, 
 	model = glm::scale(model, glm::vec3(scalar.x, scalar.y, scalar.z));
 	model = glm::translate(model, glm::vec3(item_pos.x, item_pos.y, item_pos.z));
 	model = glm::rotate(model, glm::radians(rotate_angle), glm::vec3(rotate_axis.x, rotate_axis.y, rotate_axis.z));
-	program.set_mat4_uniform("model", to_mat_mat4(model));
+	program.set_mat4_uniform("model", to_graphics_mat4(model));
+}
+
+void Camera::set_model_matrix(ShaderProgram& program, graphics::mat4 matrix)
+{
+	program.set_mat4_uniform("model", matrix);
 }
 
 void Camera::set_view_matrix(ShaderProgram& program, bool keep_translation)
@@ -40,7 +45,7 @@ void Camera::set_view_matrix(ShaderProgram& program, bool keep_translation)
 	glm::vec3 glmfront = to_glm_vec3(front);
 	glm::vec3 glmnormal = to_glm_vec3(normal);
 	glm::mat4 view = (keep_translation)?glm::lookAt(glmposition, glmposition + glmfront, glmnormal):glm::mat4(glm::mat3(glm::lookAt(glmposition, glmposition + glmfront, glmnormal)));
-	program.set_mat4_uniform("view", to_mat_mat4(view));
+	program.set_mat4_uniform("view", to_graphics_mat4(view));
 	program.deactivate();
 }
 
@@ -48,7 +53,7 @@ void Camera::set_projection_matrix(ShaderProgram& program, float aspect_ratio, f
 {
 	Camera::fov = fov;
 	glm::mat4 projection = glm::perspective(fov, aspect_ratio, 0.1f, 100.0f);
-	program.set_mat4_uniform("projection", to_mat_mat4(projection));
+	program.set_mat4_uniform("projection", to_graphics_mat4(projection));
 	program.deactivate();
 }
 
@@ -66,7 +71,7 @@ void Camera::update_position()
 		glmposition -= speed * glm::normalize(glm::cross(glmfront, glmnormal));
 	if (pwindow->has_pressed_key(Enum::KEY_D))
 		glmposition += speed * glm::normalize(glm::cross(glmfront, glmnormal));
-	position = to_vect_vec3(glmposition);
+	position = to_graphics_vec3(glmposition);
 	handle_drag();
 }
 
@@ -76,9 +81,9 @@ void Camera::update_matrices(ShaderProgram& program)
 	glm::vec3 glmfront = to_glm_vec3(front);
 	glm::vec3 glmnormal = to_glm_vec3(normal);
 	glm::mat4 view = glm::lookAt(glmposition, glmposition + glmfront, glmnormal);
-	program.set_mat4_uniform("view", to_mat_mat4(view));
+	program.set_mat4_uniform("view", to_graphics_mat4(view));
 	glm::mat4 projection = glm::perspective(glm::radians(fov), aspect_ratio, 0.1f, 100.0f);
-	program.set_mat4_uniform("projection", to_mat_mat4(projection));
+	program.set_mat4_uniform("projection", to_graphics_mat4(projection));
 }
 
 void Camera::on_mouse_move(GLFWwindow* window, double xpos, double ypos)
@@ -105,7 +110,7 @@ void Camera::on_mouse_move(GLFWwindow* window, double xpos, double ypos)
 			pitch = 89.0f;
 		if (pitch < -89.0f)
 			pitch = -89.0f;
-		front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
+		front = to_graphics_vec3(glm::normalize(to_glm_vec3(get_orientation())));
 	}
 #endif
 }
@@ -202,7 +207,7 @@ void Camera::handle_drag()
 				}
 				glmfront = glm::rotate(glmfront, glm::radians(-yaw), glmup);
 				pwindow->set_mouse_cursor_pos((width / 2), (height / 2));
-				front = to_vect_vec3(glm::normalize(glmfront));
+				front = to_graphics_vec3(glm::normalize(glmfront));
 			}
 		}
 		else if (pwindow->has_released_mouse_btn(Enum::MOUSE_BTN_LEFT))
