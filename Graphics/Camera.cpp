@@ -110,7 +110,7 @@ void Camera::on_mouse_move(GLFWwindow* window, double xpos, double ypos)
 			pitch = 89.0f;
 		if (pitch < -89.0f)
 			pitch = -89.0f;
-		front = to_vect_vec3(glm::normalize(to_glm_vec3(get_orientation())));
+		front = to_graphics_vec3(glm::normalize(to_glm_vec3(get_orientation())));
 	}
 #endif
 }
