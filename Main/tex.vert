@@ -11,6 +11,7 @@ uniform mat4 model;
 void main()
 {
 	gl_Position = projection * view * model * vec4(aPos, 1.0f);
-	texCoord = mat2(0.0, -1.0, 1.0, 0.0) * aTexCoord;
+	//OpenGL uses column major order in matrix
+	texCoord = mat2(1.0, 0.0, 0.0, -1.0) * aTexCoord;
 	color = aColor;
 }

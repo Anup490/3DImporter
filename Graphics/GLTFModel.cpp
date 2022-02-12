@@ -337,7 +337,7 @@ std::vector<graphics::vec2>* GLTFModel::group_floats_as_vec2(std::vector<float>*
 	{
 		float x = pfloatvec->at(i++);
 		float y = pfloatvec->at(i++);
-		pvectors->push_back(graphics::vec2(y, x));
+		pvectors->push_back(graphics::vec2(x, y));
 	}
 	return pvectors;
 }
