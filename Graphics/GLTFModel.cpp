@@ -335,7 +335,9 @@ std::vector<graphics::vec2>* GLTFModel::group_floats_as_vec2(std::vector<float>*
 	std::vector<graphics::vec2>* pvectors = new std::vector<graphics::vec2>();
 	for (int i = 0; i < pfloatvec->size(); i)
 	{
-		pvectors->push_back(graphics::vec2(pfloatvec->at(i++), pfloatvec->at(i++)));
+		float x = pfloatvec->at(i++);
+		float y = pfloatvec->at(i++);
+		pvectors->push_back(graphics::vec2(y, x));
 	}
 	return pvectors;
 }
@@ -345,7 +347,10 @@ std::vector<graphics::vec3>* GLTFModel::group_floats_as_vec3(std::vector<float>*
 	std::vector<graphics::vec3>* pvectors = new std::vector<graphics::vec3>();
 	for (int i = 0; i < pfloatvec->size(); i)
 	{
-		pvectors->push_back(graphics::vec3(pfloatvec->at(i++), pfloatvec->at(i++), pfloatvec->at(i++)));
+		float x = pfloatvec->at(i++);
+		float y = pfloatvec->at(i++);
+		float z = pfloatvec->at(i++);
+		pvectors->push_back(graphics::vec3(x, y, z));
 	}
 	return pvectors;
 }
