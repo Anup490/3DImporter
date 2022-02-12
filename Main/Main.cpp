@@ -52,7 +52,7 @@ int main()
 	ShaderProgram skyboxshader("test.vert", "test.frag");
 	ShaderProgram modelshader("tex.vert", "tex.frag");
 
-	pmodel = new GLTFModel("../Assets/bunny/scene.gltf");
+	pmodel = new GLTFModel("../Assets/crow/scene.gltf");
 	window.enable_feature(Enum::DEPTH_TEST);
 
 	graphics::vec4 color(1.0f, 0.65f, 0.0f, 1.0f);
@@ -83,6 +83,7 @@ int main()
 	CameraHandler handler(window);
 	handler.add_camera(&camera);
 	int count = 0;
+	window.enable_back_face_culling(true);
 	while (window.should_stay())
 	{
 		window.clear_color_buffer(color, Enum::COLOR_DEPTH_BUFFER_BIT);
