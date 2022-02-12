@@ -94,6 +94,20 @@ void Window::enable_feature(Enum cap)
 	glEnable(cap.val);
 }
 
+void Window::enable_back_face_culling(bool flag)
+{
+	if (flag)
+	{
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glFrontFace(GL_CCW);
+	}
+	else
+	{
+		glDisable(GL_CULL_FACE);
+	}
+}
+
 graphics::vec2 Window::get_dimensions() const
 {
 	return dimensions;

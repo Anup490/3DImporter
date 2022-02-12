@@ -25,6 +25,7 @@ public:
 	void clear_color_buffer(graphics::vec4& color, Enum bits);
 	void enable_depth_mask(bool flag);
 	void enable_feature(Enum cap);
+	void enable_back_face_culling(bool flag);
 	graphics::vec2 get_dimensions() const;
 	graphics::vec2 get_mouse_cursor_pos() const;
 	void set_mouse_cursor_pos(float x, float y);
