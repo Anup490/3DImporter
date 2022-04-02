@@ -86,6 +86,15 @@ void Camera::update_matrices(ShaderProgram& program)
 	program.set_mat4_uniform("projection", to_graphics_mat4(projection));
 }
 
+void Camera::update_matrices_for_cubemap(ShaderProgram& program)
+{
+	glm::vec3 glmfront = to_glm_vec3(front);
+	glm::vec3 glmnormal = to_glm_vec3(normal);
+	glm::mat4 view = glm::lookAt(to_glm_vec3(graphics::vec3(0.0, 0.0, 0.0)), glmfront, glmnormal);
+	program.set_mat4_uniform("view", to_graphics_mat4(view));
+
+}
+
 void Camera::on_mouse_move(GLFWwindow* window, double xpos, double ypos)
 {
 #ifdef MOUSE_MOVE

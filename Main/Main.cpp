@@ -88,6 +88,7 @@ int main()
 	{
 		window.clear_color_buffer(color, Enum::COLOR_DEPTH_BUFFER_BIT);
 		camera.update_position();
+		camera.update_matrices_for_cubemap(skyboxshader);
 		cubemap.draw(skyboxshader, window);
 		if(pmodel)
 			pmodel->draw(modelshader, camera);
