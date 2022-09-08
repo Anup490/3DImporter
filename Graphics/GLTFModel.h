@@ -3,33 +3,11 @@
 #include "BaseModel.h"
 #include "Matrix.h"
 
-namespace nlohmann
-{
-	template<typename, typename>
-	struct adl_serializer;
-
-	template<template<typename U, typename V, typename... Args> class ObjectType =
-		std::map,
-		template<typename U, typename... Args> class ArrayType = std::vector,
-		class StringType = std::string, class BooleanType = bool,
-		class NumberIntegerType = std::int64_t,
-		class NumberUnsignedType = std::uint64_t,
-		class NumberFloatType = double,
-		template<typename U> class AllocatorType = std::allocator,
-		template<typename T, typename SFINAE = void> class JSONSerializer =
-		adl_serializer,
-		class BinaryType = std::vector<std::uint8_t>>
-		class basic_json;
-	using json = basic_json<>;
-}
-using json = nlohmann::json;
-
 class Mesh;
 
 class GLTFModel : public BaseModel
 {
 public:
-	bool load_failure = false;
 	GLTFModel(const char* file);
 	~GLTFModel();
 	void draw
@@ -40,8 +18,10 @@ public:
 		graphics::vec4 rotation = graphics::vec4(1.0f, 0.0f, 0.0f, 0.0f),
 		graphics::vec3 scale = graphics::vec3(1.0f, 1.0f, 1.0f)
 	) override;
+	bool has_failed();
 private:
-	const char* file;
+	class GLTFModelImpl* pimpl;
+	/*const char* file;
 	std::vector<unsigned char>* pdata;
 
 	std::vector<Mesh> meshes;
@@ -76,5 +56,5 @@ private:
 	std::vector<graphics::vec3>* group_floats_as_vec3(std::vector<float>* pfloatvec);
 	std::vector<graphics::vec4>* group_floats_as_vec4(std::vector<float>* pfloatvec);
 	void handle_deletion(void* pointer);
-	template<typename Type> void handle_vector_deletion(std::vector<Type*>* pvector);
+	template<typename Type> void handle_vector_deletion(std::vector<Type*>* pvector);*/
 };
