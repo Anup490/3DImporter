@@ -88,6 +88,7 @@ int main()
 	{
 		window.clear_color_buffer(color, Enum::COLOR_DEPTH_BUFFER_BIT);
 		camera.update_position();
+		camera.update_matrices_for_cubemap(skyboxshader);
 		cubemap.draw(skyboxshader, window);
 		if(pmodel)
 			pmodel->draw(modelshader, camera);
@@ -102,7 +103,7 @@ void load_model(std::string path)
 {
 	std::string formatted_path = replace_slash(path);
 	GLTFModel* pNewModel = new GLTFModel(formatted_path.c_str());
-	if (pNewModel->load_failure)
+	if (pNewModel->has_failed())
 	{
 		std::cout << "failure loading from :: " << formatted_path << std::endl;
 		delete pNewModel;

@@ -30,6 +30,7 @@ public:
 	void set_projection_matrix(ShaderProgram& program, float aspect_ratio = 1.0f, float fov = 45.0f);
 	void update_position();
 	void update_matrices(ShaderProgram& program);
+	void update_matrices_for_cubemap(ShaderProgram& program);
 	void on_mouse_move(GLFWwindow* window, double xpos, double ypos) override;
 	void on_scroll(GLFWwindow* window, double xpos, double ypos) override;
 	void enable(bool enable);
